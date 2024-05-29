@@ -6,12 +6,13 @@ public class Main {
     public static void main(String[] args) {
         String filePath = "C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv";
         Cancion nuevaC = new Cancion();
-        int contadorurl = 0;
-        int contadortitulo = 0;
-        int contadorartista = 0;
-        int contadordailyrank = 0;
-        int contadordailymovement = 0;
-        int contadorweeklymovement = 0;
+//        int contadorurl = 0;
+//        int contadortitulo = 0;
+//        int contadorartista = 0;
+//        int contadordailyrank = 0;
+//        int contadordailymovement = 0;
+//        int contadorweeklymovement = 0;
+//        int contador = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -25,37 +26,43 @@ public class Main {
                     values[i] = values[i].replace("\"", "");
 //                    values[i] = values[i].replace("", "null");
                 }
-                System.out.println(values);
+                values[23] = values[23].replaceAll(";","");
+
+//                System.out.println(values);
                 String[] aux = values[0].split(",", 2);
 
 
                 nuevaC.setUrl(aux[0]);
-                System.out.println("url" + " " + nuevaC.url);
-                contadorurl++;
+//                System.out.println("url" + " " + nuevaC.url);
+//                contadorurl++;
 
                 nuevaC.setTitulo(aux[1]);
-                System.out.println("titulo" + " " + nuevaC.titulo);
-                contadortitulo++;
+//                System.out.println("titulo" + " " + nuevaC.titulo);
+//                contadortitulo++;
 
                 nuevaC.setArtist(values [1]);
-                System.out.println("artist" + " " + nuevaC.artist);
-                contadorartista++;
+//                System.out.println("artist" + " " + nuevaC.artist);
+//                contadorartista++;
 
                 nuevaC.setDaily_rank(Integer.parseInt(values[2]));
-                System.out.println("daily_rank" + " " + nuevaC.daily_rank);
-                contadordailyrank++;
+//                System.out.println("daily_rank" + " " + nuevaC.daily_rank);
+//                contadordailyrank++;
 
                 nuevaC.setDaily_movement(Integer.parseInt(values[3]));
-                System.out.println("daily_movement" + " " + nuevaC.daily_movement);
-                contadordailymovement++;
+//                System.out.println("daily_movement" + " " + nuevaC.daily_movement);
+//                contadordailymovement++;
 
                 nuevaC.setWeekly_movement(Integer.parseInt(values[4]));
-                System.out.println("weekly_movement" + " " + nuevaC.weekly_movement);
-                contadorweeklymovement++;
+//                System.out.println("weekly_movement" + " " + nuevaC.weekly_movement);
+//                contadorweeklymovement++;
 
-                nuevaC.setCountry(values[5]);
-                System.out.println(values[5]);
-                System.out.println("country" + " " + nuevaC.country);
+                if (values[5].isEmpty()){
+                    nuevaC.setCountry(null);
+                }else{
+                    nuevaC.setCountry(values[5]);
+                }
+//                System.out.println(values[5]);
+//                System.out.println("country" + " " + nuevaC.country);
 
                 nuevaC.snapshot_date = values[6];
 
@@ -93,16 +100,18 @@ public class Main {
 
                 nuevaC.time_signature = Integer.parseInt(values[23]);
 
-                System.out.println(nuevaC.toString());
+//                System.out.println(nuevaC.toString());
+//                contador++;
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("url" + " " + contadorurl);
-        System.out.println("titulo" + " " + contadortitulo);
-        System.out.println("artist" + " " + contadorartista);
-        System.out.println("daily rank" + " " + contadordailyrank);
+//        System.out.println(contador);
+//        System.out.println("url" + " " + contadorurl);
+//        System.out.println("titulo" + " " + contadortitulo);
+//        System.out.println("artist" + " " + contadorartista);
+//        System.out.println("daily rank" + " " + contadordailyrank);
 
     }
 
