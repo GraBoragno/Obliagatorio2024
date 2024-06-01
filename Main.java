@@ -1,17 +1,18 @@
+import Exceptions.InformacionInvalida;
+import TADS.Hash.MyHashTable;
+import TADS.Hash.MyHashTableImpl;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+//lo que esta comentado son cosas que tuve que probar
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InformacionInvalida {
         String filePath = "C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv";
         Cancion nuevaC = new Cancion();
-//        int contadorurl = 0;
-//        int contadortitulo = 0;
-//        int contadorartista = 0;
-//        int contadordailyrank = 0;
-//        int contadordailymovement = 0;
-//        int contadorweeklymovement = 0;
+        MyHashTable<String, Cancion> CancionesAgregadas = new MyHashTableImpl<>(1000);
+
 //        int contador = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -103,15 +104,24 @@ public class Main {
 //                System.out.println(nuevaC.toString());
 //                contador++;
 
+//                if(CancionesAgregadas.contains(nuevaC.getUrl())){
+//                    return;
+//                }
+                if (CancionesAgregadas.find(nuevaC.getUrl()) != nuevaC) {
+                    CancionesAgregadas.put(nuevaC.getUrl(), nuevaC);
+                } else {
+                    System.out.println("La canción con URL " + nuevaC.getUrl() + " ya está en la tabla.");
+                }
+
+                CancionesAgregadas.put(nuevaC.getUrl(), nuevaC);
+                System.out.println(CancionesAgregadas.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(CancionesAgregadas.toString());
+
 //        System.out.println(contador);
-//        System.out.println("url" + " " + contadorurl);
-//        System.out.println("titulo" + " " + contadortitulo);
-//        System.out.println("artist" + " " + contadorartista);
-//        System.out.println("daily rank" + " " + contadordailyrank);
 
     }
 
