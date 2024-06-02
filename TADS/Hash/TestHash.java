@@ -9,18 +9,19 @@ import org.junit.jupiter.api.Test;
 public class TestHash {
     @Test
     public void testResizeContainsPut() throws InformacionInvalida {
-        MyHashTable<Integer, Integer> prueba = new MyHashTableImpl<>(5);
-        prueba.put(142,1);
-        prueba.put(25,2);
-        prueba.put(33,3);
-        prueba.put(4,4);
-        prueba.put(57,5);
-        prueba.put(623,6);
-        prueba.put(78,7);
-        prueba.put(867,8);
-        prueba.put(97,9);
-        assertTrue(prueba.contains(142));
-        assertTrue(prueba.contains(867));
+        MyHashTable<String, Integer> prueba = new MyHashTableImpl<>(5);
+        prueba.put("a",1);
+        prueba.put("b",2);
+        prueba.put("c",3);
+        prueba.put("d",4);
+        prueba.put("e",5);
+        prueba.put("f",6);
+        prueba.put("g",7);
+        prueba.put("h",8);
+        prueba.put("i",9);
+        assertTrue(prueba.contains("g"));
+        assertTrue(prueba.contains("a"));
+        System.out.println(prueba.toString());
     }
     @Test
     public void testPut1() {

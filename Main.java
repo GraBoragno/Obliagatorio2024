@@ -10,15 +10,15 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws InformacionInvalida {
         String filePath = "C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv";
-        Cancion nuevaC = new Cancion();
-        MyHashTable<String, Cancion> CancionesAgregadas = new MyHashTableImpl<>(1000);
+        MyHashTable<String, Cancion> CancionesAgregadas = new MyHashTableImpl<>(11);
 
-//        int contador = 0;
+        int contador = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine();
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null || contador<100) {
+                Cancion nuevaC = new Cancion();
 
                 // Divide la línea por puntos y coma
                 String[] values = line.split("\",\"");
@@ -107,21 +107,25 @@ public class Main {
 //                if(CancionesAgregadas.contains(nuevaC.getUrl())){
 //                    return;
 //                }
-                if (CancionesAgregadas.find(nuevaC.getUrl()) != nuevaC) {
-                    CancionesAgregadas.put(nuevaC.getUrl(), nuevaC);
-                } else {
-                    System.out.println("La canción con URL " + nuevaC.getUrl() + " ya está en la tabla.");
-                }
-
+//                if (CancionesAgregadas.find(nuevaC.getUrl()) != nuevaC) {
+//                    CancionesAgregadas.put(nuevaC.getUrl(), nuevaC);
+//                }
+//                 else {
+//                    System.out.println("La canción con URL " + nuevaC.getUrl() + " ya está en la tabla.");
+//                }
+//
                 CancionesAgregadas.put(nuevaC.getUrl(), nuevaC);
-                System.out.println(CancionesAgregadas.toString());
+//                System.out.println(CancionesAgregadas.find(nuevaC.getUrl()));
+                contador++;
+//                System.out.println(contador);
+//                System.out.println(CancionesAgregadas.toString());
             }
-        } catch (IOException e) {
+        } catch (IOException  e) {
             e.printStackTrace();
         }
         System.out.println(CancionesAgregadas.toString());
 
-//        System.out.println(contador);
+        System.out.println(contador);
 
     }
 
