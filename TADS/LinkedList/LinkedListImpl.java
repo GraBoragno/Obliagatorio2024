@@ -15,7 +15,6 @@ public class LinkedListImpl<T> implements MyList<T>{
         this.last = null;
     }
 
-    // agrega al final. la hago como una subrutina porque la voy a usar muchas veces
     public void addEnd(T value) throws InformacionInvalida {
         MyNode<T> temp = new MyNode<>(value);
         if (value != null){
@@ -24,7 +23,7 @@ public class LinkedListImpl<T> implements MyList<T>{
             }else {
                 this.last.setNext(temp);
             }
-            this.last = temp; // para no repetir la linea la pongo aparte (es parte del else y el if)
+            this.last = temp;
         }else {
             throw new InformacionInvalida();
         }
@@ -35,7 +34,6 @@ public class LinkedListImpl<T> implements MyList<T>{
         addEnd(value);
     }
 
-    //el size tmb sirve para el stack y la queue
     @Override
     public int size() {
         int Resultado = 0;
@@ -51,7 +49,7 @@ public class LinkedListImpl<T> implements MyList<T>{
     public T get(int position) throws PosicionInvalida {
         if (position < 0 || position >= size()){
             throw new PosicionInvalida();
-        } //no pongo el else porque igual si tira la exception ya corta la funcion
+        }
 
         MyNode<T> temp = this.first;
         int temp2 = 0;
@@ -62,7 +60,7 @@ public class LinkedListImpl<T> implements MyList<T>{
         return temp.getValue();
     }
 
-    // tmb sirve para la queue y el hash
+
     @Override
     public boolean contains(T value) {
         MyNode<T> temp = this.first;
@@ -84,12 +82,12 @@ public class LinkedListImpl<T> implements MyList<T>{
                 throw new InformacionInvalida();
             }
             if (first.getValue().equals(value)){
-                first = first.getNext();//si el primero es el que quiero eliminar, hago que el primero sea el segund
+                first = first.getNext();
                 if (first == null){
                     last = null;
                 }
             }else{
-                MyNode<T> anteriorTemp = null; //preciso saber quien es el anteior para poder eliminar el siguiente
+                MyNode<T> anteriorTemp = null;
                 MyNode<T> temp = first;
                 while (temp != null && !temp.getValue().equals(value)){
                     anteriorTemp = temp;
