@@ -2,6 +2,7 @@ package TADS.Hash;
 
 import Exceptions.InformacionInvalida;
 import static org.junit.jupiter.api.Assertions.*;
+
 import TADS.Hash.MyHashTable;
 import TADS.Hash.MyHashTableImpl;
 import org.junit.jupiter.api.Test;

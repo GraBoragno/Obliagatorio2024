@@ -3,7 +3,6 @@ import TADS.Hash.MyHashTable;
 import TADS.Hash.MyHashTableImpl;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 //lo que esta comentado son cosas que tuve que probar
@@ -13,6 +12,7 @@ public class Main {
         MyHashTable<String, Cancion> CancionesAgregadas = new MyHashTableImpl<>(11);
 
         int contador = 0;
+        int contador_date = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -113,6 +113,8 @@ public class Main {
 //                 else {
 //                    System.out.println("La canción con URL " + nuevaC.getUrl() + " ya está en la tabla.");
 //                }
+
+                String clave = nuevaC.getUrl() + nuevaC.getCountry();
 //
                 CancionesAgregadas.put(nuevaC.getUrl(), nuevaC);
 //                System.out.println(CancionesAgregadas.find(nuevaC.getUrl()));
