@@ -4,8 +4,8 @@ import Exceptions.InformacionInvalida;
 import TADS.Hash.DoubleNode;
 import TADS.Hash.MyHashTable;
 
-public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
-    public DoubleNode<K,T>[] buckets; // array de nodos dobles
+public class MyHashTableImpl<K, T> implements MyHashTable<K, T> {
+    public DoubleNode<K, T>[] buckets; // array de nodos dobles
     private int numBuckets;
     private int ocupados;
 
@@ -14,6 +14,7 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
         this.ocupados = 0;
         this.buckets = (DoubleNode<K, T>[]) new DoubleNode[numBuckets];
     }
+
     private int getBucketIndex(K key) {
         return Math.abs(key.hashCode()) % numBuckets;
     }
@@ -23,19 +24,19 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
         DoubleNode<K, T>[] newBuckets = (DoubleNode<K, T>[]) new DoubleNode[newSize];
 
         for (int i = 0; i < numBuckets; i++) {
-            DoubleNode<K, T> node = buckets[i];
-            if (node != null) {
-                int newIndex = Math.abs(node.getKey().hashCode()) % newSize;
+            if (buckets[i] != null) {
+                int newIndex = getBucketIndex(buckets[i].getKey());
                 while (newBuckets[newIndex] != null) {
                     newIndex = (newIndex + 1) % newSize;
                 }
-                newBuckets[newIndex] = node;
+                newBuckets[newIndex] = buckets[i];
             }
         }
 
         buckets = newBuckets;
         numBuckets = newSize;
     }
+
     @Override
     public void put(K key, T value) throws InformacionInvalida {
         if (key == null || value == null) {
@@ -62,11 +63,11 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
 
     @Override
     public boolean contains(K key) throws InformacionInvalida {
-        if (key == null){
+        if (key == null) {
             throw new InformacionInvalida();
         }
         int index = getBucketIndex(key);
-        DoubleNode <K,T> temp = buckets [index];
+        DoubleNode<K, T> temp = buckets[index];
         int start = index;
         while (buckets[index] != null) {
             if (buckets[index].getKey().equals(key)) {
@@ -79,36 +80,54 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
     }
 
     @Override
-    public void remove(K key) throws InformacionInvalida{
-        if (key == null){
+    public void remove(K key) throws InformacionInvalida {
+        if (key == null) {
             throw new InformacionInvalida();
         }
         int index = getBucketIndex(key);
-        DoubleNode <K,T> temp = buckets [index];
-        if (temp == null){
+        DoubleNode<K, T> temp = buckets[index];
+        if (temp == null) {
             throw new InformacionInvalida();
         }
-        while(!temp.getKey().equals(key) && temp != null){
+        while (temp != null && !temp.getKey().equals(key)) {
             index = (index + 1) % buckets.length;
             temp = buckets[index];
         }
-        buckets[index] = null;
-        ocupados--;
-        resize();
+        if (temp != null) {
+            buckets[index] = null;
+            ocupados--;
+            organizeAfterRemoval(index);
+            resize();
+        } else {
+            throw new InformacionInvalida();
+        }
+    }
+
+    private void organizeAfterRemoval(int index) {
+        int nextIndex = (index + 1) % buckets.length;
+        while (buckets[nextIndex] != null) {
+            int newIndex = getBucketIndex(buckets[nextIndex].getKey());
+            if ((newIndex <= index && nextIndex > index) || (newIndex > index && nextIndex > index && newIndex <= nextIndex)) {
+                buckets[index] = buckets[nextIndex];
+                buckets[nextIndex] = null;
+                index = nextIndex;
+            }
+            nextIndex = (nextIndex + 1) % buckets.length;
+        }
     }
 
     @Override
     public T get(K key) throws InformacionInvalida {
-        if (key == null){
+        if (key == null) {
             throw new InformacionInvalida();
         }
         int index = getBucketIndex(key);
-        DoubleNode <K,T> temp = buckets [index];
-        while(temp != null){
-            if (!temp.getKey().equals(key)){
+        DoubleNode<K, T> temp = buckets[index];
+        while (temp != null) {
+            if (!temp.getKey().equals(key)) {
                 index = (index + 1) % numBuckets;
                 temp = buckets[index];
-            } else if (temp.getKey().equals(key)){
+            } else if (temp.getKey().equals(key)) {
                 return temp.getValue();
             }
         }
@@ -120,10 +139,9 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
     public String toString() {
         String s = "";
         for (int i = 0; i < numBuckets; i++) {
-            if(buckets[i] != null){
-                s += i + ". k= " + buckets[i].getKey().toString() + " - v= " + buckets[i].getValue().toString() + "\n";
-            }
-            else {
+            if (buckets[i] != null) {
+                s += i + ". k= " + buckets[i].getKey().toString() + " - v= " + "nada";
+            } else {
                 s += i + ". vacio\n";
             }
         }
@@ -131,3 +149,4 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
         return s;
     }
 }
+

@@ -1,5 +1,7 @@
 package Entities;
 
+import java.time.LocalDate;
+
 public class Cancion {
     String url;
     String titulo;
@@ -8,7 +10,7 @@ public class Cancion {
     int daily_movement;
     int weekly_movement;
     String country;
-    String snapshot_date;
+    LocalDate snapshot_date;
     int popularity;
     boolean is_explicit;
     int duration_ms;
@@ -28,7 +30,6 @@ public class Cancion {
     int time_signature;
 
     public Cancion() {
-
     }
 
     public String getUrl() {
@@ -87,11 +88,11 @@ public class Cancion {
         this.country = country;
     }
 
-    public String getSnapshot_date() {
+    public LocalDate getSnapshot_date() {
         return snapshot_date;
     }
 
-    public void setSnapshot_date(String snapshot_date) {
+    public void setSnapshot_date(LocalDate snapshot_date) {
         this.snapshot_date = snapshot_date;
     }
 
@@ -183,12 +184,12 @@ public class Cancion {
         this.speechiness = speechiness;
     }
 
-    public float getAcusticmess() {
+    public float getAcusticness() {
         return acusticness;
     }
 
-    public void setAcusticmess(float acusticmess) {
-        this.acusticness = acusticmess;
+    public void setAcusticness(float acusticness) {
+        this.acusticness = acusticness;
     }
 
     public float getInstrumentalness() {

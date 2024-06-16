@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class CSV {
-    public MyHashTableImpl<LocalDate,MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashDeDatos(String direcCSV)  {
+    public MyHashTableImpl<LocalDate,MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap(String direcCSV)  {
 
         String filePath = direcCSV;
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = new MyHashTableImpl<>(50);
@@ -54,7 +54,10 @@ public class CSV {
                     nuevaC.setCountry(values[5]);
                 }
 
-                nuevaC.snapshot_date = values[6];
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(values[6], formatter);
+
+                nuevaC.snapshot_date = date;
                 nuevaC.popularity = Integer.parseInt(values[7]);
                 nuevaC.is_explicit = Boolean.parseBoolean(values[8]);
                 nuevaC.duration_ms= Integer.parseInt(values[9]);
@@ -74,8 +77,6 @@ public class CSV {
                 nuevaC.time_signature = Integer.parseInt(values[23]);
 
                 contador ++;
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate date = LocalDate.parse(nuevaC.getSnapshot_date(), formatter);
 
                 if (!hashMap.contains(date)){
                     // caso en el que el hash no tiene la fecha, entonces agrego la fecha, pero para eso agrego el hash con el pais y la linked list con la cancion
@@ -103,6 +104,7 @@ public class CSV {
         } catch (InformacionInvalida e) {
             throw new RuntimeException(e);
         }
+        System.out.println(contador);
         return hashMap;
     }
 }
