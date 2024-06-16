@@ -78,13 +78,25 @@ public class CSV {
                 LocalDate date = LocalDate.parse(nuevaC.getSnapshot_date(), formatter);
 
                 if (!hashMap.contains(date)){
+                    // caso en el que el hash no tiene la fecha, entonces agrego la fecha, pero para eso agrego el hash con el pais y la linked list con la cancion
                     MyHashTableImpl<String, LinkedListImpl<Cancion>> hashNuevo = new MyHashTableImpl<>(50);
                     LinkedListImpl<Cancion> listaNueva = new LinkedListImpl<>();
                     listaNueva.add(nuevaC);
                     hashNuevo.put(nuevaC.getCountry(), listaNueva);
                     hashMap.put(date, hashNuevo);
-                }else if (hashMap.getClass())
-
+                }else {
+                    MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(date);
+                    if (!hashPais.contains(nuevaC.getCountry())) {
+                        // Caso en el que está la fecha pero no está el país, entonces creo el país pero para eso creo la linked list con la canción
+                        LinkedListImpl<Cancion> listaNueva = new LinkedListImpl<>();
+                        listaNueva.add(nuevaC);
+                        hashPais.put(nuevaC.getCountry(), listaNueva);
+                    } else {
+                        // Caso en el que está la fecha y el país, entonces agrego la canción a la lista existente
+                        LinkedListImpl<Cancion> listaExistente = hashPais.get(nuevaC.getCountry());
+                        listaExistente.add(nuevaC);
+                    }
+                }
             }
         } catch (IOException  e) {
             e.printStackTrace();
