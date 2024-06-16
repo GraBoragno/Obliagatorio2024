@@ -18,49 +18,47 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
         return Math.abs(key.hashCode()) % numBuckets;
     }
 
-    private void resize(int size2){
-        int size = size2;
-        DoubleNode<K, T>[] newBuckets = (DoubleNode<K, T>[]) new DoubleNode[size]; //creo un array nuevo con el doble de lugares
-        for (int i = 0; i < numBuckets; i++) {
-            DoubleNode<K, T> temp = buckets[i];
-            if (temp != null) {
-                int indexNuevo = Math.abs(temp.getKey().hashCode()) % size; // lo ubico en el nuevo array
-                while (newBuckets[indexNuevo] != null) {
-                    indexNuevo = (indexNuevo + 1) % size; //aca es igual al put pero no preciso actualizar el valor
-                }
-                newBuckets[indexNuevo] = temp;
-//                System.out.println(indexNuevo + " " + temp.getKey().toString());
+    private void resize() {
+        int newSize = numBuckets * 2;
+        DoubleNode<K, T>[] newBuckets = (DoubleNode<K, T>[]) new DoubleNode[newSize];
 
+        for (int i = 0; i < numBuckets; i++) {
+            DoubleNode<K, T> node = buckets[i];
+            if (node != null) {
+                int newIndex = Math.abs(node.getKey().hashCode()) % newSize;
+                while (newBuckets[newIndex] != null) {
+                    newIndex = (newIndex + 1) % newSize;
+                }
+                newBuckets[newIndex] = node;
             }
         }
+
         buckets = newBuckets;
-        numBuckets = size;
+        numBuckets = newSize;
     }
     @Override
-    public void put(K key, T value) throws InformacionInvalida{
-        if (key == null || value == null){
+    public void put(K key, T value) throws InformacionInvalida {
+        if (key == null || value == null) {
             throw new InformacionInvalida();
         }
-        int index = getBucketIndex(key);
-        DoubleNode <K,T> temp = buckets [index];
-        if (ocupados == numBuckets){
-            resize(numBuckets*2);
+
+        if (ocupados == numBuckets) {
+            resize();
         }
-        while (temp != null) {
-            if (temp.getKey().equals(key)) {
-//                temp.setValue(value);
+
+        int index = getBucketIndex(key);
+        while (buckets[index] != null) {
+            if (buckets[index].getKey().equals(key)) {
+                buckets[index].setValue(value);
                 return;
             }
-
             index = (index + 1) % numBuckets;
-            temp = buckets[index];
-
         }
-        DoubleNode<K, T> newNode = new DoubleNode<>(key, value);
-        buckets[index] = newNode;
+
+        buckets[index] = new DoubleNode<>(key, value);
         ocupados++;
-//        System.out.println(index);
     }
+
 
     @Override
     public boolean contains(K key) throws InformacionInvalida {
@@ -96,7 +94,7 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
         }
         buckets[index] = null;
         ocupados--;
-        resize(numBuckets);
+        resize();
     }
 
     @Override
@@ -108,7 +106,7 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
         DoubleNode <K,T> temp = buckets [index];
         while(temp != null){
             if (!temp.getKey().equals(key)){
-                index++;
+                index = (index + 1) % numBuckets;
                 temp = buckets[index];
             } else if (temp.getKey().equals(key)){
                 return temp.getValue();
@@ -116,6 +114,7 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
         }
         throw new InformacionInvalida();
     }
+
 
     @Override
     public String toString() {

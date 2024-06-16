@@ -1,14 +1,25 @@
+import Entities.CSV;
 import Entities.Cancion;
 import Exceptions.InformacionInvalida;
-import TADS.Hash.MyHashTable;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
+import java.time.LocalDate;
+import java.util.Scanner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+//C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv
 public class Main {
     public static void main(String[] args) throws InformacionInvalida {
+        Scanner scanner = new Scanner(System.in);
 
+        // Pedir la ruta del archivo CSV al usuario
+        System.out.println("Ingrese la ruta del archivo CSV:");
+        String direcCSV = scanner.nextLine();
+//        direcCSV = direcCSV.replace("\\", "\\\\");
+
+
+        CSV csvProcessor = new CSV();
+        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = csvProcessor.hashDeDatos(direcCSV);
+        System.out.println(hashMap);
+        scanner.close();
     }
 }
