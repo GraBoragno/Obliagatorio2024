@@ -1,3 +1,5 @@
+package Entities;
+
 public class Cancion {
     String url;
     String titulo;
@@ -231,7 +233,7 @@ public class Cancion {
 
     @Override
     public String toString() {
-        return "Cancion{" +
+        return "Entities.Cancion{" +
                 "url='" + url + '\'' +
                 ", titulo='" + titulo + '\'' +
                 ", artist='" + artist + '\'' +
