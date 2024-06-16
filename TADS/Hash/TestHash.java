@@ -51,21 +51,21 @@ public class TestHash {
         MyHashTable<Integer, Integer> prueba = new MyHashTableImpl<>(30);
         prueba.put(1,5);
         prueba.put(12,67);
-        assertEquals(5,prueba.find(1));
-        assertEquals(67,prueba.find(12));
+        assertEquals(5,prueba.get(1));
+        assertEquals(67,prueba.get(12));
     }
     @Test
     public void testFind2() {
         MyHashTable<Integer, Integer> prueba = new MyHashTableImpl<>(30);
         assertThrows(InformacionInvalida.class, () -> {
-            prueba.find(23);
+            prueba.get(23);
         });
     }
     @Test
     public void testFind3() {
         MyHashTable<Integer, Integer> prueba = new MyHashTableImpl<>(30);
         assertThrows(InformacionInvalida.class, () -> {
-            prueba.find(null);
+            prueba.get(null);
         });
     }
     @Test

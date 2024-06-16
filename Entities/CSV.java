@@ -14,10 +14,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class CSV {
-    public MyHashTableImpl<LocalDate,MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashDeDatos(String direcCSV)  {
+    public MyHashTableImpl<LocalDate,MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashDeDatos(String direcCSV)  {
 
         String filePath = direcCSV;
-        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap = new MyHashTableImpl<>(50);
+        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = new MyHashTableImpl<>(50);
         //Es un hash con clave fechas que como value tiene otro hash con clave pais y con value una lista con las canciones
 
         int contador = 0;
@@ -78,8 +78,12 @@ public class CSV {
                 LocalDate date = LocalDate.parse(nuevaC.getSnapshot_date(), formatter);
 
                 if (!hashMap.contains(date)){
-
-                }
+                    MyHashTableImpl<String, LinkedListImpl<Cancion>> hashNuevo = new MyHashTableImpl<>(50);
+                    LinkedListImpl<Cancion> listaNueva = new LinkedListImpl<>();
+                    listaNueva.add(nuevaC);
+                    hashNuevo.put(nuevaC.getCountry(), listaNueva);
+                    hashMap.put(date, hashNuevo);
+                }else if (hashMap.getClass())
 
             }
         } catch (IOException  e) {

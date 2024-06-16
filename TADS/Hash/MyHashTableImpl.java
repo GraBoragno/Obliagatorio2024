@@ -74,8 +74,8 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
             if (buckets[index].getKey().equals(key)) {
                 return true;
             }
-            index = (index + 1) % numBuckets; // linear probing
-            if (index == start) break; // back to the starting index, avoid infinite loop
+            index = (index + 1) % numBuckets;
+            if (index == start) break;
         }
         return false;
     }
@@ -100,7 +100,7 @@ public class MyHashTableImpl<K,T> implements MyHashTable<K, T> {
     }
 
     @Override
-    public T find(K key) throws InformacionInvalida {
+    public T get(K key) throws InformacionInvalida {
         if (key == null){
             throw new InformacionInvalida();
         }
