@@ -4,6 +4,8 @@ import Exceptions.InformacionInvalida;
 import TADS.Hash.DoubleNode;
 import TADS.Hash.MyHashTable;
 
+import java.util.Arrays;
+
 public class MyHashTableImpl<K, T> implements MyHashTable<K, T> {
     public DoubleNode<K, T>[] buckets; // array de nodos dobles
     private int numBuckets;
@@ -118,35 +120,31 @@ public class MyHashTableImpl<K, T> implements MyHashTable<K, T> {
 
     @Override
     public T get(K key) throws InformacionInvalida {
+        T valor = null;
         if (key == null) {
             throw new InformacionInvalida();
         }
         int index = getBucketIndex(key);
         DoubleNode<K, T> temp = buckets[index];
-        while (temp != null) {
-            if (!temp.getKey().equals(key)) {
-                index = (index + 1) % numBuckets;
-                temp = buckets[index];
-            } else if (temp.getKey().equals(key)) {
-                return temp.getValue();
+        int start = index;
+        while (buckets[index] != null) {
+            if (buckets[index].getKey().equals(key)) {
+                valor = buckets[index].getValue();
             }
+            index = (index + 1) % numBuckets;
+            if (index == start) break;
         }
-        throw new InformacionInvalida();
+        return valor;
     }
 
 
     @Override
     public String toString() {
-        String s = "";
-        for (int i = 0; i < numBuckets; i++) {
-            if (buckets[i] != null) {
-                s += i + ". k= " + buckets[i].getKey().toString() + " - v= " + "nada";
-            } else {
-                s += i + ". vacio\n";
-            }
-        }
-
-        return s;
+        return "MyHashTableImpl{" +
+                "buckets=" + Arrays.toString(buckets) +
+                ", numBuckets=" + numBuckets +
+                ", ocupados=" + ocupados +
+                '}';
     }
 }
 

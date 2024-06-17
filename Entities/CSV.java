@@ -76,12 +76,13 @@ public class CSV {
                 nuevaC.valence = Float.parseFloat(values[21]);
                 nuevaC.tempo = Float.parseFloat(values[22]);
                 nuevaC.time_signature = Integer.parseInt(values[23]);
-                System.out.println(nuevaC.toString());
+//                System.out.println(nuevaC.toString());
                 contador ++;
 
                 MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(date);
+                boolean algo = hashMap.contains(date);
 
-                if (hashPais == null){
+                if (!algo){
                     // caso en el que el hash no tiene la fecha, entonces agrego la fecha, pero para eso agrego el hash con el pais y la linked list con la cancion
                     MyHashTableImpl<String, LinkedListImpl<Cancion>> hashNuevo = new MyHashTableImpl<>(50);
                     LinkedListImpl<Cancion> listaNueva = new LinkedListImpl<>();
@@ -106,7 +107,7 @@ public class CSV {
         } catch (InformacionInvalida e) {
             throw new RuntimeException(e);
         }
-        System.out.println(contador);
+        System.out.println(hashMap.toString());
         return hashMap;
     }
 }
