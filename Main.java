@@ -1,5 +1,6 @@
 import Entities.CSV;
 import Entities.Cancion;
+import Entities.Functions;
 import Exceptions.InformacionInvalida;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
@@ -20,8 +21,7 @@ public class Main {
 
         CSV csvProcessor = new CSV();
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = csvProcessor.hashMap(direcCSV);
-
-
+        Functions functions = new Functions(hashMap);
 
         int opcion = 0;
 
