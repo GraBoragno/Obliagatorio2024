@@ -27,7 +27,7 @@ public class Main {
 
         while (opcion != 6 ){
             System.out.println ("Elija una consulta para realizar:" );
-            System.out.println ("1. Top 10 canciones en un dia dado");
+            System.out.println ("1. Top 10 canciones en un pais y dia dado");
             System.out.println ("2. Top 5 canciones con mas apariciones en los top 50 en un dia dado");
             System.out.println ("3. Top 7 artistas que mas aparecen en los top 50 para un rango de fechas");
             System.out.println ("4. Cantidad de veces que aparece un artista en un top 50");
