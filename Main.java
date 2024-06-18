@@ -42,6 +42,11 @@ public class Main {
                     break;
 
                 case 2:
+                    System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
+                    String fechaS = scanner.nextLine();
+                    LocalDate fecha = LocalDate.parse(fechaS);
+                    LinkedListImpl<Cancion> top5 = functions.funcion2(fecha);
+
                     //poner aca la funcion a la que quiero que vaya;
                     break;
 
