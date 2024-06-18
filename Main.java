@@ -32,7 +32,7 @@ public class Main {
             System.out.println ("3. Top 7 artistas que mas aparecen en los top 50 para un rango de fechas");
             System.out.println ("4. Cantidad de veces que aparece un artista en un top 50");
             System.out.println ("5. Cantidad de canciones con un tempo en un rango especifico para un rango de fechas");
-            System.out.println("6. finalizar el programa.");
+            System.out.println("6. Finalizar el programa.");
 
             opcion= scanner. nextInt();
 
