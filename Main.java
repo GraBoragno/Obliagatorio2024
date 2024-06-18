@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 //C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv
+//C:\\Users\\marti\\OneDrive\\Desktop\\2024 S1\\prog2\\universal_top_spotify_songs (1)\\universal_top_spotify_songs.csv
 public class Main {
     public static void main(String[] args) throws InformacionInvalida {
         Scanner scanner = new Scanner(System.in);
