@@ -60,6 +60,9 @@ public class Main {
                 case 6:
                     System.out.println("programa finalizado.");
                     break;
+
+                default:
+                    System.out.println("Se ingreso un valor invalido, intentar de nuevo: ");
             }
         }
         scanner.close();
