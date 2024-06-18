@@ -5,6 +5,7 @@ import Exceptions.InformacionInvalida;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 //C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv
@@ -42,12 +43,17 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
-                    String fechaS = scanner.nextLine();
-                    LocalDate fecha = LocalDate.parse(fechaS);
-                    LinkedListImpl<Cancion> top5 = functions.funcion2(fecha);
-
-                    //poner aca la funcion a la que quiero que vaya;
+                    LocalDate fecha = null;
+                    while (fecha == null) {
+                        System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
+                        String fechaS = scanner.next();
+                        try {
+                            fecha = LocalDate.parse(fechaS);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
+                        }
+                    }
+                    functions.funcion2(fecha);
                     break;
 
                 case 3:
