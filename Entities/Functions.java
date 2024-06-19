@@ -13,6 +13,11 @@ public class Functions {
         this.hashMap = hashMap;
     }
     //abajo de esto hay que poner las funciones
+
+    public void funcion1 (LocalDate fecha1, String pais1) throws InformacionInvalida {
+        //continuar la funcion
+    }
+
     public void funcion2 (LocalDate fecha) throws InformacionInvalida {
         MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(fecha);
         if(hashPais == null){
