@@ -1,26 +1,20 @@
 package Entities;
 
 import Exceptions.InformacionInvalida;
-import TADS.Hash.MyHashTable;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
-import TADS.LinkedList.MyList;
-import TADS.Pair.PairImpl;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 
 public class CSV {
-    public PairImpl<MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>>, MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>>> hashMap(String direcCSV) throws InformacionInvalida {
+    public MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap(String direcCSV) throws InformacionInvalida {
 
         String filePath = direcCSV;
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = new MyHashTableImpl<>(50);
         //Es un hash con clave fechas que como value tiene otro hash con clave pais y con value una lista con las canciones
-        MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl = new MyHashTableImpl<>(11);
 
 //        int contador = 0;
 
@@ -81,18 +75,6 @@ public class CSV {
 //                System.out.println(nuevaC.toString());
 //                contador ++;
 
-                LinkedListImpl<Cancion> listaCXFecha = hashUrl.get(date);
-                boolean algo2 = hashUrl.contains(date);
-                if(!algo2){
-                    LinkedListImpl<Cancion> listaAgregar = new LinkedListImpl<>();
-                    listaAgregar.add(nuevaC);
-                    hashUrl.put(date, listaAgregar);
-                }
-                else{
-                    listaCXFecha.add(nuevaC);
-                }
-
-
                 MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(date);
                 boolean algo = hashMap.contains(date);
 
@@ -122,8 +104,7 @@ public class CSV {
             throw new RuntimeException(e);
         }
 //        System.out.println(hashMap.toString());
-        System.out.println(hashUrl.toString());
-        return new PairImpl<>(hashMap, hashUrl);
+        return hashMap;
     }
 
 }

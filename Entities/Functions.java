@@ -12,12 +12,10 @@ import java.util.Comparator;
 
 public class Functions {
     private MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap;
-    private MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl;
 
-    public Functions(MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap,
-                     MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl) {
+    public Functions(MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap) {
         this.hashMap = hashMap;
-        this.hashUrl = hashUrl;
+
     }
     //abajo de esto hay que poner las funciones
 
@@ -60,42 +58,7 @@ public class Functions {
             System.out.println("No hay datos para esa fecha");
             return;
         }
-        //esto no deberia pasar pero por las dudas
-        LinkedListImpl<Cancion> listaCancionesFecha = hashUrl.get(fecha);
-        if (listaCancionesFecha == null) {
-            System.out.println("No hay datos para esa fecha");
-            return;
-        }
-        //hash para ver la cantidad de veces que aparece una cancion
-        MyHashTableImpl<String, Integer> hashAuxCan = new MyHashTableImpl<>(50);
-        for (int i = 0; i < listaCancionesFecha.size(); i++) {
-            Cancion cancion = listaCancionesFecha.get(i);
-            String url = cancion.getUrl();
-            if (hashAuxCan.contains(url)) {
-                int count = hashAuxCan.get(url);
-                hashAuxCan.put(url, count + 1);
-            } else {
-                hashAuxCan.put(url, 1);
-            }
-        }
-        // Encuentra las 5 canciones
-        String[] topCanciones = new String[5];
-        int[] topFrecuencias = new int[5];
 
-        for (int i = 0; i < hashAuxCan.buckets.length; i++) {
-            DoubleNode<String, Integer> node = hashAuxCan.buckets[i];
-            while (node != null) {
-                actualizarTop5(node.getKey(), node.getValue(), topCanciones, topFrecuencias);
-                node = findNextNode(hashAuxCan.buckets, i, node.getKey());
-            }
-        }
-        // porfa que funcione
-        System.out.println("Top 5 canciones con más apariciones en los top 50 el " + fecha + ":");
-        for (int i = 0; i < 5; i++) {
-            if (topCanciones[i] != null) {
-                System.out.println(topCanciones[i]);
-            }
-        }
 
     }
 }
