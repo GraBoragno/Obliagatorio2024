@@ -137,6 +137,14 @@ public class MyHashTableImpl<K, T> implements MyHashTable<K, T> {
         return valor;
     }
 
+    @Override
+    public int size() {
+        return numBuckets;
+    }
+
+    public DoubleNode<K, T>[] getStashes() {
+        return buckets;
+    }
 
     @Override
     public String toString() {
