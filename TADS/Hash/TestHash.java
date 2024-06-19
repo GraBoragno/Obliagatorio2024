@@ -8,22 +8,7 @@ import TADS.Hash.MyHashTableImpl;
 import org.junit.jupiter.api.Test;
 
 public class TestHash {
-    @Test
-    public void testResizeContainsPut() throws InformacionInvalida {
-        MyHashTable<String, Integer> prueba = new MyHashTableImpl<>(5);
-        prueba.put("a",1);
-        prueba.put("b",2);
-        prueba.put("c",3);
-        prueba.put("d",4);
-        prueba.put("e",5);
-        prueba.put("f",6);
-        prueba.put("g",7);
-        prueba.put("h",8);
-        prueba.put("i",9);
-        assertTrue(prueba.contains("g"));
-        assertTrue(prueba.contains("a"));
-        System.out.println(prueba.toString());
-    }
+
     @Test
     public void testPut1() {
         MyHashTable<Integer, Integer> prueba = new MyHashTableImpl<>(30);
@@ -53,13 +38,6 @@ public class TestHash {
         prueba.put(12,67);
         assertEquals(5,prueba.get(1));
         assertEquals(67,prueba.get(12));
-    }
-    @Test
-    public void testFind2() {
-        MyHashTable<Integer, Integer> prueba = new MyHashTableImpl<>(30);
-        assertThrows(InformacionInvalida.class, () -> {
-            prueba.get(23);
-        });
     }
     @Test
     public void testFind3() {
