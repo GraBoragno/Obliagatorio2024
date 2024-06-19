@@ -80,6 +80,16 @@ public class CSV {
 //                System.out.println(nuevaC.toString());
 //                contador ++;
 
+                LinkedListImpl<Cancion> listaCXFecha = hashUrl.get(date);
+                if(listaCXFecha == null){
+                    LinkedListImpl<Cancion> listaAgregar = new LinkedListImpl<>();
+                    listaAgregar.add(nuevaC);
+                    hashUrl.put(date, listaAgregar);
+                }
+                else{
+                    hashUrl.get(date).add(nuevaC);
+                }
+
 
                 MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(date);
                 boolean algo = hashMap.contains(date);
@@ -109,7 +119,8 @@ public class CSV {
         } catch (InformacionInvalida e) {
             throw new RuntimeException(e);
         }
-        System.out.println(hashMap.toString());
+//        System.out.println(hashMap.toString());
+        System.out.println(hashUrl.toString());
         return hashMap;
 
     }
