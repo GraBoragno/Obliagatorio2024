@@ -82,13 +82,14 @@ public class CSV {
 //                contador ++;
 
                 LinkedListImpl<Cancion> listaCXFecha = hashUrl.get(date);
-                if(listaCXFecha == null){
+                boolean algo2 = hashUrl.contains(date);
+                if(!algo2){
                     LinkedListImpl<Cancion> listaAgregar = new LinkedListImpl<>();
                     listaAgregar.add(nuevaC);
                     hashUrl.put(date, listaAgregar);
                 }
                 else{
-                    hashUrl.get(date).add(nuevaC);
+                    listaCXFecha.add(nuevaC);
                 }
 
 
