@@ -21,6 +21,17 @@ public class Functions {
     //abajo de esto hay que poner las funciones
 
     public void funcion1 (LocalDate fecha1, String pais1) throws InformacionInvalida {
+        MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha1);
+        if (hashPais == null) {
+            System.out.println("No hay datos para esa fecha");
+            return;
+        }
+        LinkedListImpl<Cancion>[] listaCanciones = hashPais.get(pais1);
+        if (listaCanciones == null) {
+            System.out.println("No hay datos para esa fecha en ese pais");
+            return;
+        }
+
         //continuar la funcion
     }
 
