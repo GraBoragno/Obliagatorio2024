@@ -8,9 +8,10 @@ import java.time.LocalDate;
 
 public class Functions {
     private MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap;
-    MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl;
+    private MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl;
 
-    public Functions(MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap, MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl) {
+    public Functions(MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap,
+                     MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl) {
         this.hashMap = hashMap;
         this.hashUrl = hashUrl;
     }

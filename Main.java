@@ -19,7 +19,7 @@ public class Main {
 
         System.out.println("Ingrese la ruta del archivo CSV sin comillas:");
         String direcCSV = scanner.nextLine();
-//        direcCSV = direcCSV.replace("\\", "\\\\");
+
 
 
         CSV csvProcessor = new CSV();
