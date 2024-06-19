@@ -5,15 +5,16 @@ import Exceptions.PosicionInvalida;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
 import TADS.Hash.DoubleNode;
+import TADS.LinkedList.MyNode;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class Functions {
-    private MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap;
+    private MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap;
 
-    public Functions(MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap) {
+    public Functions(MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap) {
         this.hashMap = hashMap;
 
     }
@@ -34,31 +35,39 @@ public class Functions {
         }
         return null;
     }
-    private void actualizarTop5(String url, int cantidad, String[] topCanciones, int[] topCant) {
-        //metodo auxiliar funcion 2
-        for (int i = 0; i < 5; i++) {
-            if (topCanciones[i] == null || cantidad > topCant[i]) {
-                // saca la cancion si hay una con mas apariciones
-                for (int j = 4; j > i; j--) {
-                    topCanciones[j] = topCanciones[j - 1];
-                    topCant[j] = topCant[j - 1];
-                }
-                // Actualizar la nueva canción y frecuencia en la posición i
-                topCanciones[i] = url;
-                topCant[i] = cantidad;
-                break;
-            }
-        }
-    }
 
-    public void funcion2 (LocalDate fecha) throws InformacionInvalida, PosicionInvalida {
+    public void funcion2 (LocalDate fecha) throws InformacionInvalida {
         //la funcion mas dificil que hice en mi vida
-        MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(fecha);
-        if(hashPais == null){
+        MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
+        if (hashPais == null) {
             System.out.println("No hay datos para esa fecha");
             return;
         }
 
-
+        MyHashTableImpl<String, LinkedListImpl<Cancion>> cancionesDelDia = new MyHashTableImpl<>(11);
+        //es un asco esto
+        for (int i = 0; i < hashPais.size(); i++) { //Recorre todas las fechas en hashpais
+            if (hashPais.getStashes()[i] != null) {
+                LinkedListImpl<Cancion>[] top50 = hashPais.getStashes()[i].getValue();
+                for (int j = 0; j < top50.length; j++) { //es sobre los tops 50 de cada pais basicamente
+                    if (top50[j] != null) {
+                        MyNode<Cancion> currentNode = top50[j].getFirst();
+                        while (currentNode != null) { //recore todos los nodos de las listas de naciones guardandose los valores del valor y el url
+                            Cancion cancion = currentNode.getValue();
+                            String cancionID = cancion.getUrl();
+                            LinkedListImpl<Cancion> listaCancionX;
+                            try {
+                                listaCancionX = cancionesDelDia.get(cancionID);
+                            } catch (InformacionInvalida e) {
+                                listaCancionX = new LinkedListImpl<>();
+                                cancionesDelDia.put(cancionID, listaCancionX);
+                            }
+                            listaCancionX.add(cancion);
+                            currentNode = currentNode.getNext();
+                        }
+                    }
+                }
+            }
+        }
     }
 }

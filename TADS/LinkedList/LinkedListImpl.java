@@ -99,4 +99,12 @@ public class LinkedListImpl<T> implements MyList<T>{
         }
 
     }
+
+    public MyNode<T> getFirst() {
+        return first;
+    }
+
+    public MyNode<T> getLast() {
+        return last;
+    }
 }
