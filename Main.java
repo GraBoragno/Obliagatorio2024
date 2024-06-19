@@ -23,9 +23,9 @@ public class Main {
 
 
         CSV csvProcessor = new CSV();
-        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>>  result = csvProcessor.hashMap(direcCSV);
+        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>>  result = csvProcessor.hashMap(direcCSV);
 
-        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = result;
+        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap = result;
         Functions functions = new Functions(hashMap);
 
         int opcion = 0;

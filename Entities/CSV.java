@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 public class CSV {
-    public MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap(String direcCSV) throws InformacionInvalida {
+    public MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap(String direcCSV) throws InformacionInvalida {
 
         String filePath = direcCSV;
-        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = new MyHashTableImpl<>(50);
+        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap = new MyHashTableImpl<>(50);
         //Es un hash con clave fechas que como value tiene otro hash con clave pais y con value una lista con las canciones
 
 //        int contador = 0;
@@ -75,26 +75,26 @@ public class CSV {
 //                System.out.println(nuevaC.toString());
 //                contador ++;
 
-                MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(date);
+                MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(date);
                 boolean algo = hashMap.contains(date);
 
                 if (!algo){
                     // caso en el que el hash no tiene la fecha, entonces agrego la fecha, pero para eso agrego el hash con el pais y la linked list con la cancion
-                    MyHashTableImpl<String, LinkedListImpl<Cancion>> hashNuevo = new MyHashTableImpl<>(50);
-                    LinkedListImpl<Cancion> listaNueva = new LinkedListImpl<>();
-                    listaNueva.add(nuevaC);
+                    MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashNuevo = new MyHashTableImpl<>(50);
+                    LinkedListImpl<Cancion>[] listaNueva = new LinkedListImpl[50];
+                    listaNueva[0].add(nuevaC);
                     hashNuevo.put(nuevaC.getCountry(), listaNueva);
                     hashMap.put(date, hashNuevo);
                 }else {
                     if (!hashPais.contains(nuevaC.getCountry())) {
                         // Caso en el que está la fecha pero no está el país, entonces creo el país pero para eso creo la linked list con la canción
-                        LinkedListImpl<Cancion> listaNueva = new LinkedListImpl<>();
-                        listaNueva.add(nuevaC);
+                        LinkedListImpl<Cancion>[] listaNueva = new LinkedListImpl[50];
+                        listaNueva[0].add(nuevaC);
                         hashPais.put(nuevaC.getCountry(), listaNueva);
                     } else {
                         // Caso en el que está la fecha y el país, entonces agrego la canción a la lista existente
-                        LinkedListImpl<Cancion> listaExistente = hashPais.get(nuevaC.getCountry());
-                        listaExistente.add(nuevaC);
+                        LinkedListImpl<Cancion>[] listaExistente = hashPais.get(nuevaC.getCountry());
+                        listaExistente[0].add(nuevaC);
                     }
                 }
             }
