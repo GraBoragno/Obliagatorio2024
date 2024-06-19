@@ -21,26 +21,25 @@ public class Main {
         String direcCSV = scanner.nextLine();
 
 
-
         CSV csvProcessor = new CSV();
-        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>>  result = csvProcessor.hashMap(direcCSV);
+        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> result = csvProcessor.hashMap(direcCSV);
 
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap = result;
         Functions functions = new Functions(hashMap);
 
         int opcion = 0;
 
-        while (opcion != 6 ){
-            System.out.println ("Menu Consultas" );
-            System.out.println ("1. Top 10 canciones en un pais y dia dado");
-            System.out.println ("2. Top 5 canciones con mas apariciones en los top 50 en un dia dado");
-            System.out.println ("3. Top 7 artistas que mas aparecen en los top 50 para un rango de fechas");
-            System.out.println ("4. Cantidad de veces que aparece un artista en un top 50");
-            System.out.println ("5. Cantidad de canciones con un tempo en un rango especifico para un rango de fechas");
+        while (opcion != 6) {
+            System.out.println("Menu Consultas");
+            System.out.println("1. Top 10 canciones en un pais y dia dado");
+            System.out.println("2. Top 5 canciones con mas apariciones en los top 50 en un dia dado");
+            System.out.println("3. Top 7 artistas que mas aparecen en los top 50 para un rango de fechas");
+            System.out.println("4. Cantidad de veces que aparece un artista en un top 50");
+            System.out.println("5. Cantidad de canciones con un tempo en un rango especifico para un rango de fechas");
             System.out.println("6. Finalizar el programa.");
-            System.out.println ("Elija una consulta para realizar:" );
+            System.out.println("Elija una consulta para realizar:");
 
-            opcion= scanner. nextInt();
+            opcion = scanner.nextInt();
 
             switch (opcion) {
                 case 1:
@@ -80,7 +79,16 @@ public class Main {
                     break;
 
                 case 4:
-                    //poner aca la funcion a la que quiero que vaya;
+                    LocalDate fecha4 = null;
+                    while (fecha4 == null) {
+                        System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
+                        String fecha4S = scanner.next();
+                        try {
+                            fecha4 = LocalDate.parse(fecha4S);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
+                        }
+                    }
                     break;
 
                 case 5:
@@ -95,6 +103,16 @@ public class Main {
                     System.out.println("Se ingreso un valor invalido, intentar de nuevo: ");
             }
         }
-        scanner.close();
+
+        //no se si funciona!!
+        System.out.println("Le gustaria hacer otra consulta? (si/no): ");
+        String respuesta = scanner.next();
+
+        if (!respuesta.equals("si")) {
+            System.out.println("Finalizando el programa.");
+            scanner.close();
+            return;
+
+        }
     }
 }
