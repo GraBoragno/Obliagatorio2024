@@ -5,6 +5,7 @@ import TADS.Hash.MyHashTable;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
 import TADS.LinkedList.MyList;
+import TADS.Pair.PairImpl;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class CSV {
-    public MyHashTableImpl<LocalDate,MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap(String direcCSV)  {
+    public PairImpl<MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>>, MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>>> hashMap(String direcCSV) throws InformacionInvalida {
 
         String filePath = direcCSV;
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = new MyHashTableImpl<>(50);
@@ -121,8 +122,7 @@ public class CSV {
         }
 //        System.out.println(hashMap.toString());
         System.out.println(hashUrl.toString());
-        return hashMap;
-
+        return new PairImpl<>(hashMap, hashUrl);
     }
 
 }

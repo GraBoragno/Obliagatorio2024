@@ -4,6 +4,8 @@ import Entities.Functions;
 import Exceptions.InformacionInvalida;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
+import TADS.Pair.PairImpl;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -21,8 +23,11 @@ public class Main {
 
 
         CSV csvProcessor = new CSV();
-        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = csvProcessor.hashMap(direcCSV);
-        Functions functions = new Functions(hashMap);
+        PairImpl<MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>>, MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>>> result = csvProcessor.hashMap(direcCSV);
+
+        MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = result.getFirst();
+        MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl = result.getSecond();
+        Functions functions = new Functions(hashMap, hashUrl);
 
         int opcion = 0;
 
