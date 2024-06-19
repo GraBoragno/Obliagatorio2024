@@ -76,34 +76,29 @@ public class CSV {
 //                contador ++;
 
                 MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(date);
-                boolean algo = hashMap.contains(date);
-
-                if (!algo){
-                    // caso en el que el hash no tiene la fecha, entonces agrego la fecha, pero para eso agrego el hash con el pais y la linked list con la cancion
-                    MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashNuevo = new MyHashTableImpl<>(50);
-                    LinkedListImpl<Cancion>[] listaNueva = new LinkedListImpl[50];
-                    listaNueva[0].add(nuevaC);
-                    hashNuevo.put(nuevaC.getCountry(), listaNueva);
-                    hashMap.put(date, hashNuevo);
-                }else {
-                    if (!hashPais.contains(nuevaC.getCountry())) {
-                        // Caso en el que está la fecha pero no está el país, entonces creo el país pero para eso creo la linked list con la canción
-                        LinkedListImpl<Cancion>[] listaNueva = new LinkedListImpl[50];
-                        listaNueva[0].add(nuevaC);
-                        hashPais.put(nuevaC.getCountry(), listaNueva);
-                    } else {
-                        // Caso en el que está la fecha y el país, entonces agrego la canción a la lista existente
-                        LinkedListImpl<Cancion>[] listaExistente = hashPais.get(nuevaC.getCountry());
-                        listaExistente[0].add(nuevaC);
-                    }
+                if (hashPais == null) {
+                    hashPais = new MyHashTableImpl<>(50);
+                    hashMap.put(date, hashPais);
                 }
+
+                LinkedListImpl<Cancion>[] listaPais = hashPais.get(nuevaC.getCountry());
+                if (listaPais == null) {
+                    listaPais = new LinkedListImpl[50];
+                    for (int i = 0; i < listaPais.length; i++) {
+                        listaPais[i] = new LinkedListImpl<>();
+                    }
+                    hashPais.put(nuevaC.getCountry(), listaPais);
+                }
+
+                listaPais[0].add(nuevaC);
+
             }
         } catch (IOException  e) {
             e.printStackTrace();
         } catch (InformacionInvalida e) {
             throw new RuntimeException(e);
         }
-//        System.out.println(hashMap.toString());
+        System.out.println(hashMap.toString());
         return hashMap;
     }
 
