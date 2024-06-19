@@ -2,6 +2,7 @@ import Entities.CSV;
 import Entities.Cancion;
 import Entities.Functions;
 import Exceptions.InformacionInvalida;
+import Exceptions.PosicionInvalida;
 import TADS.Hash.MyHashTableImpl;
 import TADS.LinkedList.LinkedListImpl;
 import TADS.Pair.PairImpl;
@@ -14,7 +15,7 @@ import java.util.Scanner;
 //C:\\Users\\marti\\OneDrive\\Desktop\\2024 S1\\prog2\\universal_top_spotify_songs (1)\\universal_top_spotify_songs.csv
 
 public class Main {
-    public static void main(String[] args) throws InformacionInvalida {
+    public static void main(String[] args) throws InformacionInvalida, PosicionInvalida {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingrese la ruta del archivo CSV sin comillas:");
