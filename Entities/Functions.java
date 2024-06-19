@@ -35,18 +35,6 @@ public class Functions {
         //continuar la funcion
     }
 
-    private DoubleNode<String, Integer> findNextNode(DoubleNode<String, Integer>[] buckets, int idxAct, String key) {
-        //metodo auxiliar para la funcion 2, espero que funcione, sirve para encontrar el siguiente
-        int index = (idxAct + 1) % buckets.length;
-        while (index != idxAct){
-            if (buckets[index] != null && buckets[index].getKey().equals(key)) {
-                return buckets[index];
-            }
-            index = (index + 1) % buckets.length;
-        }
-        return null;
-    }
-
     public void funcion2 (LocalDate fecha) throws InformacionInvalida {
         //la funcion mas dificil que hice en mi vida
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
