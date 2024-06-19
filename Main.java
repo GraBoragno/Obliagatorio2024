@@ -27,20 +27,35 @@ public class Main {
         int opcion = 0;
 
         while (opcion != 6 ){
-            System.out.println ("Elija una consulta para realizar:" );
+            System.out.println ("Menu Consultas" );
             System.out.println ("1. Top 10 canciones en un pais y dia dado");
             System.out.println ("2. Top 5 canciones con mas apariciones en los top 50 en un dia dado");
             System.out.println ("3. Top 7 artistas que mas aparecen en los top 50 para un rango de fechas");
             System.out.println ("4. Cantidad de veces que aparece un artista en un top 50");
             System.out.println ("5. Cantidad de canciones con un tempo en un rango especifico para un rango de fechas");
             System.out.println("6. Finalizar el programa.");
+            System.out.println ("Elija una consulta para realizar:" );
 
             opcion= scanner. nextInt();
 
             switch (opcion) {
                 case 1:
-                    //poner aca la funcion a la que quiero que vaya;
+                    LocalDate fecha1 = null;
+                    while (fecha1 == null) {
+                        System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
+                        String fecha1S = scanner.next();
+                        try {
+                            fecha1 = LocalDate.parse(fecha1S);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
+                        }
+                    }
+                    System.out.println("Ingrese el nombre del pais: ");
+                    String pais1 = scanner.next();
+
+                    functions.funcion1(fecha1, pais1);
                     break;
+
 
                 case 2:
                     LocalDate fecha = null;
