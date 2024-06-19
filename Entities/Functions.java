@@ -17,7 +17,6 @@ public class Functions {
         MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(fecha);
         if(hashPais == null){
             System.out.println("No hay datos para esa fecha");
-            return;
         }
         else{
             System.out.println("el if anda");

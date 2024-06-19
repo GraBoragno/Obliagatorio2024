@@ -19,8 +19,9 @@ public class CSV {
         String filePath = direcCSV;
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>>> hashMap = new MyHashTableImpl<>(50);
         //Es un hash con clave fechas que como value tiene otro hash con clave pais y con value una lista con las canciones
+        MyHashTableImpl<LocalDate, LinkedListImpl<Cancion>> hashUrl = new MyHashTableImpl<>(11);
 
-        int contador = 0;
+//        int contador = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -77,7 +78,8 @@ public class CSV {
                 nuevaC.tempo = Float.parseFloat(values[22]);
                 nuevaC.time_signature = Integer.parseInt(values[23]);
 //                System.out.println(nuevaC.toString());
-                contador ++;
+//                contador ++;
+
 
                 MyHashTableImpl<String, LinkedListImpl<Cancion>> hashPais = hashMap.get(date);
                 boolean algo = hashMap.contains(date);
