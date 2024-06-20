@@ -44,25 +44,37 @@ public class Functions {
         }
 
         MyHashTableImpl<String, LinkedListImpl<Cancion>> cancionesDelDia = new MyHashTableImpl<>(11);
-        //es un asco esto
-        for (int i = 0; i < hashPais.size(); i++) { //Recorre todas las fechas en hashpais
-            if (hashPais.getStashes()[i] != null) {
+
+        // Es un asco esto
+        for (int i = 0; i < hashPais.size(); i++) { // Recorre todas las fechas en hashpais
+            if (hashPais.getStashes() != null && hashPais.getStashes()[i] != null) {
                 LinkedListImpl<Cancion>[] top50 = hashPais.getStashes()[i].getValue();
-                for (int j = 0; j < top50.length; j++) { //es sobre los tops 50 de cada pais basicamente
-                    if (top50[j] != null) {
-                        MyNode<Cancion> currentNode = top50[j].getFirst();
-                        while (currentNode != null) { //recore todos los nodos de las listas de naciones guardandose los valores del valor y el url
-                            Cancion cancion = currentNode.getValue();
-                            String cancionID = cancion.getUrl();
-                            LinkedListImpl<Cancion> listaCancionX;
-                            try {
-                                listaCancionX = cancionesDelDia.get(cancionID);
-                            } catch (InformacionInvalida e) {
-                                listaCancionX = new LinkedListImpl<>();
-                                cancionesDelDia.put(cancionID, listaCancionX);
+                if (top50 != null) {
+                    for (int j = 0; j < top50.length; j++) { // Es sobre los tops 50 de cada pais basicamente
+                        if (top50[j] != null) {
+                            MyNode<Cancion> currentNode = top50[j].getFirst();
+                            while (currentNode != null) { // Recorre todos los nodos de las listas de naciones guardandose los valores del valor y el url
+                                Cancion cancion = currentNode.getValue();
+                                String cancionID = cancion.getUrl();
+                                LinkedListImpl<Cancion> listaCancionX = null;
+
+                                try {
+                                    listaCancionX = cancionesDelDia.get(cancionID);
+                                } catch (InformacionInvalida e) {
+                                    // Inicializamos listaCancionX si no existe en cancionesDelDia
+                                    listaCancionX = new LinkedListImpl<>();
+                                    cancionesDelDia.put(cancionID, listaCancionX);
+                                }
+
+                                // Verificamos nuevamente que listaCancionX no sea null antes de usarlo
+                                if (listaCancionX == null) {
+                                    listaCancionX = new LinkedListImpl<>();
+                                    cancionesDelDia.put(cancionID, listaCancionX);
+                                }
+
+                                listaCancionX.add(cancion);
+                                currentNode = currentNode.getNext();
                             }
-                            listaCancionX.add(cancion);
-                            currentNode = currentNode.getNext();
                         }
                     }
                 }
