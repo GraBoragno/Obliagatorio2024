@@ -100,7 +100,7 @@ public class Functions {
             }
         });
 
-        // Mostrar los resultados de los top 5 más populares me printea los menossss y no puedo arreglarlo
+        // esto es un print ja ja ja
         int pos = 1;
         MyNode<DoubleNode<Integer, LinkedListImpl<Cancion>>> currentNode = topFive.getFirst();
         while (currentNode != null && pos <= 5) {
@@ -126,6 +126,7 @@ public class Functions {
 
             currentNode = currentNode.getNext();
         }
+
     }
 
 }
