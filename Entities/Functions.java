@@ -35,8 +35,7 @@ public class Functions {
         //continuar la funcion
     }
 
-    public void funcion2 (LocalDate fecha) throws InformacionInvalida {
-        //la funcion mas dificil que hice en mi vida
+    public void funcion2(LocalDate fecha) throws InformacionInvalida {
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
         if (hashPais == null) {
             System.out.println("No hay datos para esa fecha");
@@ -45,28 +44,26 @@ public class Functions {
 
         MyHashTableImpl<String, LinkedListImpl<Cancion>> cancionesDelDia = new MyHashTableImpl<>(11);
 
-        // Es un asco esto
-        for (int i = 0; i < hashPais.size(); i++) { // Recorre todas las fechas en hashpais
+        // Recorrer hashPais y agregar todas las canciones a cancionesDelDia
+        for (int i = 0; i < hashPais.size(); i++) {
             if (hashPais.getStashes() != null && hashPais.getStashes()[i] != null) {
                 LinkedListImpl<Cancion>[] top50 = hashPais.getStashes()[i].getValue();
                 if (top50 != null) {
-                    for (int j = 0; j < top50.length; j++) { // Es sobre los tops 50 de cada pais basicamente
+                    for (int j = 0; j < top50.length; j++) {
                         if (top50[j] != null) {
                             MyNode<Cancion> currentNode = top50[j].getFirst();
-                            while (currentNode != null) { // Recorre todos los nodos de las listas de naciones guardandose los valores del valor y el url
+                            while (currentNode != null) {
                                 Cancion cancion = currentNode.getValue();
                                 String cancionID = cancion.getUrl();
-                                LinkedListImpl<Cancion> listaCancionX = null;
 
+                                LinkedListImpl<Cancion> listaCancionX;
                                 try {
                                     listaCancionX = cancionesDelDia.get(cancionID);
                                 } catch (InformacionInvalida e) {
-                                    // Inicializamos listaCancionX si no existe en cancionesDelDia
                                     listaCancionX = new LinkedListImpl<>();
                                     cancionesDelDia.put(cancionID, listaCancionX);
                                 }
 
-                                // Verificamos nuevamente que listaCancionX no sea null antes de usarlo
                                 if (listaCancionX == null) {
                                     listaCancionX = new LinkedListImpl<>();
                                     cancionesDelDia.put(cancionID, listaCancionX);
@@ -80,5 +77,55 @@ public class Functions {
                 }
             }
         }
+
+        // Calcular las canciones más populares y agregarlas a topFive
+        LinkedListImpl<DoubleNode<Integer, LinkedListImpl<Cancion>>> topFive = new LinkedListImpl<>();
+
+        for (int i = 0; i < cancionesDelDia.size(); i++) {
+            if (cancionesDelDia.getStashes()[i] != null) {
+                LinkedListImpl<Cancion> canciones = cancionesDelDia.getStashes()[i].getValue();
+                if (canciones != null) { // Verificar que canciones no sea null
+                    int count = canciones.size();
+                    DoubleNode<Integer, LinkedListImpl<Cancion>> nuevoStash = new DoubleNode<>(count, canciones);
+                    topFive.add(nuevoStash);
+                }
+            }
+        }
+
+        // Ordenar topFive por número de apariciones en orden descendente
+        topFive.sort(new Comparator<DoubleNode<Integer, LinkedListImpl<Cancion>>>() {
+            @Override
+            public int compare(DoubleNode<Integer, LinkedListImpl<Cancion>> o1, DoubleNode<Integer, LinkedListImpl<Cancion>> o2) {
+                return o2.getKey().compareTo(o1.getKey()); // Orden descendente por número de apariciones
+            }
+        });
+
+        // Mostrar los resultados de los top 5 más populares me printea los menossss y no puedo arreglarlo
+        int pos = 1;
+        MyNode<DoubleNode<Integer, LinkedListImpl<Cancion>>> currentNode = topFive.getFirst();
+        while (currentNode != null && pos <= 5) {
+            DoubleNode<Integer, LinkedListImpl<Cancion>> entry = currentNode.getValue();
+            LinkedListImpl<Cancion> canciones = entry.getValue();
+
+            String rankingInfo = canciones.size() > 1 ? " (Empate) " : " ";
+            rankingInfo += "con " + entry.getKey() + " apariciones --- ";
+
+            System.out.print(pos + "º" + rankingInfo);
+
+            MyNode<Cancion> currentSongNode = canciones.getFirst();
+            while (currentSongNode != null) {
+                Cancion cancion = currentSongNode.getValue();
+                System.out.print(cancion);
+                currentSongNode = currentSongNode.getNext();
+                if (currentSongNode != null) {
+                    System.out.print("  ---  ");
+                }
+            }
+            System.out.println();
+            pos++;
+
+            currentNode = currentNode.getNext();
+        }
     }
+
 }

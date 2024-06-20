@@ -4,6 +4,8 @@ import Exceptions.EmptyListException;
 import Exceptions.InformacionInvalida;
 import Exceptions.PosicionInvalida;
 
+import java.util.Comparator;
+
 public interface MyList<T> {
 
     void add(T value) throws InformacionInvalida;
@@ -15,5 +17,7 @@ public interface MyList<T> {
     void remove(T value) throws InformacionInvalida, EmptyListException;
 
     int size();
+
+    public void sort(Comparator<T> comparator);
 
 }
