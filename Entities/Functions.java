@@ -115,7 +115,7 @@ public class Functions {
             MyNode<Cancion> currentSongNode = canciones.getFirst();
             while (currentSongNode != null) {
                 Cancion cancion = currentSongNode.getValue();
-                System.out.print(cancion);
+                System.out.print("titulo: " + cancion.getTitulo() + " artista: " + cancion.getArtist());
                 currentSongNode = currentSongNode.getNext();
                 if (currentSongNode != null) {
                     System.out.print("  ---  ");
