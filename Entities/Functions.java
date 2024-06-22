@@ -42,9 +42,12 @@ public class Functions {
             return;
         }
 
-        MyHashTableImpl<String, LinkedListImpl<Cancion>> cancionesDelDia = new MyHashTableImpl<>(11);
+        // cuenta las apariciones de canciones
+        MyHashTableImpl<String, Integer> cancionesCount = new MyHashTableImpl<>(11);
+        // las guarda por el url
+        MyHashTableImpl<String, Cancion> cancionMap = new MyHashTableImpl<>(11);
 
-        // Recorrer hashPais y agregar todas las canciones a cancionesDelDia
+        // Recorre hashPais y cuenta todas las apariciones de las canciones
         for (int i = 0; i < hashPais.size(); i++) {
             if (hashPais.getStashes() != null && hashPais.getStashes()[i] != null) {
                 LinkedListImpl<Cancion>[] top50 = hashPais.getStashes()[i].getValue();
@@ -56,20 +59,13 @@ public class Functions {
                                 Cancion cancion = currentNode.getValue();
                                 String cancionID = cancion.getUrl();
 
-                                LinkedListImpl<Cancion> listaCancionX;
-                                try {
-                                    listaCancionX = cancionesDelDia.get(cancionID);
-                                } catch (InformacionInvalida e) {
-                                    listaCancionX = new LinkedListImpl<>();
-                                    cancionesDelDia.put(cancionID, listaCancionX);
+                                Integer count = cancionesCount.get(cancionID);
+                                if (count == null) {
+                                    count = 0;
                                 }
+                                cancionesCount.put(cancionID, count + 1);
+                                cancionMap.put(cancionID, cancion);
 
-                                if (listaCancionX == null) {
-                                    listaCancionX = new LinkedListImpl<>();
-                                    cancionesDelDia.put(cancionID, listaCancionX);
-                                }
-
-                                listaCancionX.add(cancion);
                                 currentNode = currentNode.getNext();
                             }
                         }
@@ -78,55 +74,57 @@ public class Functions {
             }
         }
 
-        // Calcular las canciones más populares y agregarlas a topFive
-        LinkedListImpl<DoubleNode<Integer, LinkedListImpl<Cancion>>> topFive = new LinkedListImpl<>();
+        // va a ordenar las canciones por cantidad de veces que aparecen
+        LinkedListImpl<DoubleNode<Integer, Cancion>> topFive = new LinkedListImpl<>();
 
-        for (int i = 0; i < cancionesDelDia.size(); i++) {
-            if (cancionesDelDia.getStashes()[i] != null) {
-                LinkedListImpl<Cancion> canciones = cancionesDelDia.getStashes()[i].getValue();
-                if (canciones != null) { // Verificar que canciones no sea null
-                    int count = canciones.size();
-                    DoubleNode<Integer, LinkedListImpl<Cancion>> nuevoStash = new DoubleNode<>(count, canciones);
+        // agrega las canciones a la lista
+        for (int i = 0; i < cancionesCount.size(); i++) {
+            if (cancionesCount.getStashes() != null && cancionesCount.getStashes()[i] != null) {
+                String cancionID = cancionesCount.getStashes()[i].getKey();
+                Integer count = cancionesCount.get(cancionID);
+                Cancion cancion = cancionMap.get(cancionID);
+
+                if (count != null && cancion != null) {
+                    DoubleNode<Integer, Cancion> nuevoStash = new DoubleNode<>(count, cancion);
                     topFive.add(nuevoStash);
                 }
             }
         }
 
-        // Ordenar topFive por número de apariciones en orden descendente
-        topFive.sort(new Comparator<DoubleNode<Integer, LinkedListImpl<Cancion>>>() {
+        // orden la lista por número de apariciones
+        topFive.sort(new Comparator<DoubleNode<Integer, Cancion>>() {
             @Override
-            public int compare(DoubleNode<Integer, LinkedListImpl<Cancion>> o1, DoubleNode<Integer, LinkedListImpl<Cancion>> o2) {
-                return o2.getKey().compareTo(o1.getKey()); // Orden descendente por número de apariciones
+            public int compare(DoubleNode<Integer, Cancion> o1, DoubleNode<Integer, Cancion> o2) {
+                return o2.getKey().compareTo(o1.getKey());
             }
         });
 
-        // esto es un print ja ja ja
+        // esta es para no printear las cosas dos veces
+        LinkedListImpl<String> printedSongs = new LinkedListImpl<>();
+
+        // printea las 5 que mas aparecen
         int pos = 1;
-        MyNode<DoubleNode<Integer, LinkedListImpl<Cancion>>> currentNode = topFive.getFirst();
-        while (currentNode != null && pos <= 5) {
-            DoubleNode<Integer, LinkedListImpl<Cancion>> entry = currentNode.getValue();
-            LinkedListImpl<Cancion> canciones = entry.getValue();
+        int count = 0;
+        MyNode<DoubleNode<Integer, Cancion>> currentNode = topFive.getFirst();
+        while (currentNode != null && count < 5) {
+            DoubleNode<Integer, Cancion> entry = currentNode.getValue();
+            Cancion cancion = entry.getValue();
 
-            String rankingInfo = canciones.size() > 1 ? " (Empate) " : " ";
-            rankingInfo += "con " + entry.getKey() + " apariciones --- ";
+            // ve si ya se printeo
+            boolean alreadyPrinted = printedSongs.contains(cancion.getUrl());
+            if (!alreadyPrinted) {
+                printedSongs.add(cancion.getUrl());
+                String rankingInfo = " con " + entry.getKey() + " apariciones --- ";
 
-            System.out.print(pos + "º" + rankingInfo);
-
-            MyNode<Cancion> currentSongNode = canciones.getFirst();
-            while (currentSongNode != null) {
-                Cancion cancion = currentSongNode.getValue();
+                System.out.print(pos + "º" + rankingInfo);
                 System.out.print("titulo: " + cancion.getTitulo() + " artista: " + cancion.getArtist());
-                currentSongNode = currentSongNode.getNext();
-                if (currentSongNode != null) {
-                    System.out.print("  ---  ");
-                }
+                System.out.println();
+
+                pos++;
+                count++;
             }
-            System.out.println();
-            pos++;
 
             currentNode = currentNode.getNext();
         }
-
     }
-
 }

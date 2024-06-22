@@ -104,7 +104,7 @@ public class LinkedListImpl<T> implements MyList<T>{
     //esto es para la funcion 2
     public void sort(Comparator<T> comparator) {
         if (first == null || first.getNext() == null) {
-            return; // La lista está vacía o tiene un solo elemento, ya está "ordenada"
+            return; // La lista está vacía o tiene un solo elemento, ya está ordenada ponele
         }
 
         boolean swapped;
@@ -114,8 +114,8 @@ public class LinkedListImpl<T> implements MyList<T>{
             MyNode<T> previous = null;
 
             while (current != null && current.getNext() != null) {
-                if (comparator.compare(current.getValue(), current.getNext().getValue()) < 0) {
-                    // Si el nodo actual es menor que el siguiente, intercambiar
+                if (comparator.compare(current.getValue(), current.getNext().getValue()) > 0) {
+                    // Si el nodo actual es mayor que el siguiente los intercambia
                     MyNode<T> next = current.getNext();
                     MyNode<T> nextNext = next.getNext();
 
