@@ -90,7 +90,8 @@ public class CSV {
                     hashPais.put(nuevaC.getCountry(), listaPais);
                 }
 
-                listaPais[0].add(nuevaC);
+                listaPais[nuevaC.daily_rank - 1].add(nuevaC);
+//                System.out.println(nuevaC.getCountry());
 
             }
         } catch (IOException  e) {
@@ -98,7 +99,6 @@ public class CSV {
         } catch (InformacionInvalida e) {
             throw new RuntimeException(e);
         }
-        System.out.println(hashMap.toString());
         return hashMap;
     }
 

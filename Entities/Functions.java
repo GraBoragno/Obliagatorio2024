@@ -21,7 +21,7 @@ public class Functions {
     }
     //abajo de esto hay que poner las funciones
 
-    public void funcion1 (LocalDate fecha1, String pais1) throws InformacionInvalida {
+    public void funcion1 (LocalDate fecha1, String pais1) throws InformacionInvalida, PosicionInvalida {
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha1);
         if (hashPais == null) {
             System.out.println("No hay datos para esa fecha");
@@ -32,8 +32,14 @@ public class Functions {
             System.out.println("No hay datos para esa fecha en ese pais");
             return;
         }
-
-        //continuar la funcion
+        LinkedListImpl<Cancion>[] top50 = hashPais.get(pais1);
+        for (int i = 0; i < 10; i++) {
+            if(top50[i] != null){
+                for (int j = 0; j < top50[i].size(); j++) {
+                    System.out.println(top50[i].get(j));
+                }
+            }
+        }
     }
 
     public void funcion2(LocalDate fecha) throws InformacionInvalida, PosicionInvalida {
