@@ -13,6 +13,9 @@ import java.util.Scanner;
 //C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv
 //C:\\Users\\marti\\OneDrive\\Desktop\\2024 S1\\prog2\\universal_top_spotify_songs (1)\\universal_top_spotify_songs.csv
 
+//NO FUNCIONA EL PAIS ZA
+//LA FECHA 2024-05-13 TAMPOCO
+
 public class Main {
     public static void main(String[] args) throws InformacionInvalida, PosicionInvalida {
         Scanner scanner = new Scanner(System.in);
@@ -75,7 +78,27 @@ public class Main {
                     break;
 
                 case 3:
-                    //poner aca la funcion a la que quiero que vaya;
+                    LocalDate fecha31 = null;
+                    LocalDate fecha32 = null;
+                    while (fecha31 == null) {
+                        System.out.println("Ingrese la fecha de inicio (yyyy-mm-dd): ");
+                        String fechaS1 = scanner.next();
+                        try {
+                            fecha31 = LocalDate.parse(fechaS1);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
+                        }
+                    }
+                    while (fecha32 == null ) {
+                        System.out.println("Ingrese la fecha de fin (yyyy-mm-dd): ");
+                        String fechaS2 = scanner.next();
+                        try {
+                            fecha32 = LocalDate.parse(fechaS2);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
+                        }
+                    }
+                    functions.funcion3(fecha31, fecha32);
                     break;
 
                 case 4:

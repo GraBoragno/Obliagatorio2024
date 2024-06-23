@@ -8,9 +8,6 @@ import TADS.Hash.DoubleNode;
 import TADS.LinkedList.MyNode;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Objects;
 
 public class Functions {
     private MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap;
@@ -48,7 +45,7 @@ public class Functions {
             System.out.println("No hay datos para esa fecha");
             return;
         }
-
+        System.out.println("En ejecucion...");
         // cuenta las apariciones de canciones
         LinkedListImpl<DoubleNode<Integer, Cancion>> cancionesCount = new LinkedListImpl<>();
         // las guarda por el url
@@ -122,4 +119,32 @@ public class Functions {
         System.out.println(numero4 + " " + cancion4);
         System.out.println(numero5 + " " + cancion5);
     }
+
+    public void funcion3(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
+        MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais1 = hashMap.get(fecha1);
+        if (hashPais1 == null) {
+            System.out.println("No hay datos para esa fecha");
+            return;
+        }
+        MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais2 = hashMap.get(fecha2);
+        if (hashPais2 == null) {
+            System.out.println("No hay datos para esa fecha");
+            return;
+        }
+        DoubleNode<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>>[] buckets = hashMap.getStashes();
+        Integer posicion1 = 0;
+        Integer posicion2 = 0;
+        for (int i = 0; i < buckets.length; i++) {
+            if(buckets[i] != null){
+                if(buckets[i].getKey().equals(fecha1)){
+                    posicion1 = i;
+                }
+                if(buckets[i].getKey().equals(fecha2)){
+                    posicion2 = i;
+                }
+            }
+        }
+        System.out.println(posicion1 + " " + posicion2);
+    }
+
 }

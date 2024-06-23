@@ -99,6 +99,7 @@ public class CSV {
         } catch (InformacionInvalida e) {
             throw new RuntimeException(e);
         }
+        System.out.println(hashMap.getStashes().length);
         return hashMap;
     }
 
