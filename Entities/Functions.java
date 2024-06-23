@@ -45,7 +45,6 @@ public class Functions {
             System.out.println("No hay datos para esa fecha");
             return;
         }
-        System.out.println("En ejecucion...");
 
         MyHashTableImpl<String, Integer> cancionesCount = new MyHashTableImpl<>(100);
         MyHashTableImpl<String, Cancion> cancionMap = new MyHashTableImpl<>(100);
@@ -109,31 +108,74 @@ public class Functions {
 
 
     public void funcion3(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
-        MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais1 = hashMap.get(fecha1);
-        if (hashPais1 == null) {
-            System.out.println("No hay datos para esa fecha");
-            return;
-        }
-        MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais2 = hashMap.get(fecha2);
-        if (hashPais2 == null) {
-            System.out.println("No hay datos para esa fecha");
-            return;
-        }
-        DoubleNode<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>>[] buckets = hashMap.getStashes();
-        Integer posicion1 = 0;
-        Integer posicion2 = 0;
-        for (int i = 0; i < buckets.length; i++) {
-            if(buckets[i] != null){
-                if(buckets[i].getKey().equals(fecha1)){
-                    posicion1 = i;
+        MyHashTableImpl<String, Integer> artistCount = new MyHashTableImpl<>(100);
+
+        LocalDate fecha = fecha1;
+        while (!fecha.isAfter(fecha2)) {
+            MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
+            if (hashPais != null) {
+                for (int i = 0; i < hashPais.size(); i++) {
+                    if (hashPais.getStashes()[i] != null) {
+                        LinkedListImpl<Cancion>[] top50 = hashPais.getStashes()[i].getValue();
+                        if (top50 != null) {
+                            for (int j = 0; j < top50.length; j++) {
+                                LinkedListImpl<Cancion> lista = top50[j];
+                                if (lista != null) {
+                                    MyNode<Cancion> currentNode = lista.getFirst();
+                                    while (currentNode != null) {
+                                        LinkedListImpl<String> artistas = currentNode.getValue().getArtist();
+                                        MyNode<String> artistaNode = artistas.getFirst();
+                                        while (artistaNode != null) {
+                                            String artista = artistaNode.getValue();
+                                            Integer count = artistCount.get(artista);
+                                            if (count == null) {
+                                                artistCount.put(artista, 1);
+                                            } else {
+                                                artistCount.put(artista, count + 1);
+                                            }
+                                            artistaNode = artistaNode.getNext();
+                                        }
+                                        currentNode = currentNode.getNext();
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                if(buckets[i].getKey().equals(fecha2)){
-                    posicion2 = i;
+            }
+            fecha = fecha.plusDays(1);
+        }
+
+        String[] topArtists = new String[7];
+        int[] topCounts = new int[7];
+
+        for (int i = 0; i < artistCount.size(); i++) {
+            if (artistCount.getStashes()[i] != null) {
+                String artist = artistCount.getStashes()[i].getKey();
+                int count = artistCount.getStashes()[i].getValue();
+
+                for (int j = 0; j < 7; j++) {
+                    if (topCounts[j] == 0 || count > topCounts[j]) {
+                        for (int k = 6; k > j; k--) {
+                            topCounts[k] = topCounts[k - 1];
+                            topArtists[k] = topArtists[k - 1];
+                        }
+                        topCounts[j] = count;
+                        topArtists[j] = artist;
+                        break;
+                    }
                 }
             }
         }
-//        System.out.println(posicion1 + " " + posicion2);
+
+        for (int i = 0; i < 7; i++) {
+            if (topArtists[i] != null) {
+                System.out.println(topArtists[i] + ": " + topCounts[i]);
+            }
+        }
     }
+
+
     public void funcion4(LocalDate fecha, String pais, String artista) throws InformacionInvalida, PosicionInvalida {
         int apariciones = 0;
 
