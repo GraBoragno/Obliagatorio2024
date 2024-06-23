@@ -10,8 +10,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+//AL CSV HAY QUE SACARLE LAS COMILLAS Y PONERLE DOS CONTRABARRAS DONDE TIENE UNA
+
 //C:\\Users\\grabo\\OneDrive\\Escritorio\\Dataset2.csv
 //C:\\Users\\marti\\OneDrive\\Desktop\\2024 S1\\prog2\\universal_top_spotify_songs (1)\\universal_top_spotify_songs.csv
+
 
 //NO FUNCIONA EL PAIS ZA
 //LA FECHA 2024-05-13 TAMPOCO
