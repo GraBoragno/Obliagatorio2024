@@ -19,6 +19,10 @@ public class Functions {
     //abajo de esto hay que poner las funciones
 
     public void funcion1 (LocalDate fecha1, String pais1) throws InformacionInvalida, PosicionInvalida {
+        System.gc();
+        long startTime = System.nanoTime();
+        float startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha1);
         if (hashPais == null) {
             System.out.println("No hay datos para esa fecha");
@@ -37,6 +41,15 @@ public class Functions {
                 }
             }
         }
+        long endTime = System.nanoTime();
+        long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        double tiempoEjecucionSegundos = (endTime - startTime) / 1_000_000_000.0;
+
+        float memoriaUsada = endMemory - startMemory;
+        System.out.println("\n");
+        System.out.printf("Tiempo de ejecución: %.3f segundos%n", tiempoEjecucionSegundos);
+        System.out.println("Memoria usada: " + memoriaUsada/(1024*1024*1024) + " Gb");
     }
 
     public void funcion2(LocalDate fecha) throws InformacionInvalida, PosicionInvalida {
