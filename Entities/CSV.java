@@ -38,7 +38,7 @@ public class CSV {
                 String[] aux2 = values[1].split(",");
                 LinkedListImpl <String> artistas = new LinkedListImpl<>();
                 for (int i = 0; i < aux2.length; i++) {
-                    String nombre = aux2[i].trim();
+                    String nombre = aux2[i].trim().toLowerCase();
                     artistas.add(nombre);
                 }
                 nuevaC.setUrl(aux[0]);

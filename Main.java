@@ -23,7 +23,6 @@ public class Main {
         System.out.println("Ingrese la ruta del archivo CSV sin comillas:");
         String direcCSV = scanner.nextLine();
 
-
         CSV csvProcessor = new CSV();
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> result = csvProcessor.hashMap(direcCSV);
 
@@ -42,14 +41,19 @@ public class Main {
             System.out.println("6. Finalizar el programa.");
             System.out.println("Elija una consulta para realizar:");
 
-            opcion = scanner.nextInt();
+            try {
+                opcion = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Por favor, ingrese un número del 1 al 6.");
+                continue; // Volver al inicio del bucle
+            }
 
             switch (opcion) {
                 case 1:
                     LocalDate fecha1 = null;
                     while (fecha1 == null) {
                         System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
-                        String fecha1S = scanner.next();
+                        String fecha1S = scanner.nextLine().trim();
                         try {
                             fecha1 = LocalDate.parse(fecha1S);
                         } catch (DateTimeParseException e) {
@@ -57,17 +61,16 @@ public class Main {
                         }
                     }
                     System.out.println("Ingrese el nombre del pais: ");
-                    String pais1 = scanner.next();
+                    String pais1 = scanner.nextLine().trim();
 
                     functions.funcion1(fecha1, pais1);
                     break;
-
 
                 case 2:
                     LocalDate fecha = null;
                     while (fecha == null) {
                         System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
-                        String fechaS = scanner.next();
+                        String fechaS = scanner.nextLine().trim();
                         try {
                             fecha = LocalDate.parse(fechaS);
                         } catch (DateTimeParseException e) {
@@ -82,16 +85,16 @@ public class Main {
                     LocalDate fecha32 = null;
                     while (fecha31 == null) {
                         System.out.println("Ingrese la fecha de inicio (yyyy-mm-dd): ");
-                        String fechaS1 = scanner.next();
+                        String fechaS1 = scanner.nextLine().trim();
                         try {
                             fecha31 = LocalDate.parse(fechaS1);
                         } catch (DateTimeParseException e) {
                             System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
                         }
                     }
-                    while (fecha32 == null ) {
+                    while (fecha32 == null) {
                         System.out.println("Ingrese la fecha de fin (yyyy-mm-dd): ");
-                        String fechaS2 = scanner.next();
+                        String fechaS2 = scanner.nextLine().trim();
                         try {
                             fecha32 = LocalDate.parse(fechaS2);
                         } catch (DateTimeParseException e) {
@@ -105,13 +108,19 @@ public class Main {
                     LocalDate fecha4 = null;
                     while (fecha4 == null) {
                         System.out.println("Ingrese la fecha (yyyy-mm-dd): ");
-                        String fecha4S = scanner.next();
+                        String fecha4S = scanner.nextLine().trim();
                         try {
                             fecha4 = LocalDate.parse(fecha4S);
                         } catch (DateTimeParseException e) {
                             System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
                         }
                     }
+                    System.out.println("Ingrese el nombre del pais: ");
+                    String pais4 = scanner.nextLine().trim();
+                    System.out.println("Ingrese el nombre del artista: ");
+                    String artista = scanner.nextLine().trim();
+
+                    functions.funcion4(fecha4, pais4, artista);
                     break;
 
                 case 5:
@@ -128,15 +137,6 @@ public class Main {
             }
         }
 
-        //no se si funciona!!
-        System.out.println("Le gustaria hacer otra consulta? (si/no): ");
-        String respuesta = scanner.next();
-
-        if (!respuesta.equals("si")) {
-            System.out.println("Finalizando el programa.");
-            scanner.close();
-            return;
-
-        }
+        scanner.close();
     }
 }

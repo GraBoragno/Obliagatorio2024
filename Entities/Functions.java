@@ -152,10 +152,47 @@ public class Functions {
                 }
             }
         }
-        System.out.println(posicion1 + " " + posicion2);
+//        System.out.println(posicion1 + " " + posicion2);
     }
-    public void funcion4(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
+    public void funcion4(LocalDate fecha, String pais, String artista) throws InformacionInvalida, PosicionInvalida {
+        int apariciones = 0;
 
+        MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
+        if (hashPais == null) {
+            System.out.println("No hay datos para esa fecha");
+            return;
+        }
+
+        LinkedListImpl<Cancion>[] cancionesDelTop = hashPais.get(pais);
+        if (cancionesDelTop == null) {
+            System.out.println("No hay datos para esa fecha en ese país");
+            return;
+        }
+
+        // Convertir el nombre del artista a minúsculas para la comparación sin distinción de mayúsculas y minúsculas
+        String artistaMinusculas = artista.toLowerCase();
+
+        // Recorrer las listas de canciones del top 50
+        for (int i = 0; i < cancionesDelTop.length; i++) {
+            if (cancionesDelTop[i] != null) {
+                for (int j = 0; j < cancionesDelTop[i].size(); j++) {
+                    LinkedListImpl<String> artistas = cancionesDelTop[i].get(j).getArtist();
+                    if (artistas != null) {
+                        MyNode<String> artistaNode = artistas.getFirst();
+                        while (artistaNode != null) {
+                            // Comparar el nombre del artista ignorando mayúsculas y minúsculas
+                            if (artistaNode.getValue().toLowerCase().equals(artistaMinusculas)) {
+                                apariciones++;
+                            }
+                            artistaNode = artistaNode.getNext();
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("El artista " + artista + " aparece " + apariciones + " veces en el top 50 de " + pais + " en la fecha " + fecha);
     }
+
 
 }
