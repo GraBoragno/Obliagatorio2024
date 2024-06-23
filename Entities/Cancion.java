@@ -1,11 +1,13 @@
 package Entities;
 
+import TADS.LinkedList.LinkedListImpl;
+
 import java.time.LocalDate;
 
 public class Cancion {
     String url;
     String titulo;
-    String artist;
+    LinkedListImpl <String> artist;
     int daily_rank;
     int daily_movement;
     int weekly_movement;
@@ -48,11 +50,11 @@ public class Cancion {
         this.titulo = artista;
     }
 
-    public String getArtist() {
+    public LinkedListImpl<String> getArtist() {
         return artist;
     }
 
-    public void setArtist(String artist) {
+    public void setArtist(LinkedListImpl<String> artist) {
         this.artist = artist;
     }
 
@@ -234,15 +236,16 @@ public class Cancion {
 
     @Override
     public String toString() {
-        return "Entities.Cancion{" +
+
+        return "Cancion{" +
                 "url='" + url + '\'' +
                 ", titulo='" + titulo + '\'' +
-                ", artist='" + artist + '\'' +
+                ", artist=" + artist.toString() +
                 ", daily_rank=" + daily_rank +
                 ", daily_movement=" + daily_movement +
                 ", weekly_movement=" + weekly_movement +
                 ", country='" + country + '\'' +
-                ", snapshot_date='" + snapshot_date + '\'' +
+                ", snapshot_date=" + snapshot_date +
                 ", popularity=" + popularity +
                 ", is_explicit=" + is_explicit +
                 ", duration_ms=" + duration_ms +

@@ -145,4 +145,19 @@ public class LinkedListImpl<T> implements MyList<T>{
     public MyNode<T> getLast() {
         return last;
     }
+
+    @Override
+    public String toString() {
+        String s = "";
+        try{
+            s+=get(0).toString();
+            for (int i = 1; i < size(); i++) {
+                s += ", " + get(i).toString();
+            }
+        }catch (PosicionInvalida e) {
+            throw new RuntimeException(e);
+        }
+        s += "\n              ";
+        return s;
+    }
 }

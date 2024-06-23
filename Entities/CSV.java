@@ -35,11 +35,15 @@ public class CSV {
 
 //                System.out.println(values);
                 String[] aux = values[0].split(",", 2);
-
-
+                String[] aux2 = values[1].split(",");
+                LinkedListImpl <String> artistas = new LinkedListImpl<>();
+                for (int i = 0; i < aux2.length; i++) {
+                    String nombre = aux2[i].trim();
+                    artistas.add(nombre);
+                }
                 nuevaC.setUrl(aux[0]);
                 nuevaC.setTitulo(aux[1]);
-                nuevaC.setArtist(values [1]);
+                nuevaC.setArtist(artistas);
                 nuevaC.setDaily_rank(Integer.parseInt(values[2]));
                 nuevaC.setDaily_movement(Integer.parseInt(values[3]));
                 nuevaC.setWeekly_movement(Integer.parseInt(values[4]));

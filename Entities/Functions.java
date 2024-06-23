@@ -90,6 +90,7 @@ public class Functions {
         Cancion cancion3 = null;
         Cancion cancion4 = null;
         Cancion cancion5 = null;
+
         for (int i = 0; i < cancionesCount.size(); i++) {
             if (cancionesCount.get(i).getKey() > numero1){
                 numero1 = cancionesCount.get(i).getKey();
@@ -113,14 +114,21 @@ public class Functions {
             }
         }
 
-        System.out.println(numero1 + " " + cancion1);
-        System.out.println(numero2 + " " + cancion2);
-        System.out.println(numero3 + " " + cancion3);
-        System.out.println(numero4 + " " + cancion4);
-        System.out.println(numero5 + " " + cancion5);
+        System.out.println(numero1 + " " + cancion1.getTitulo() + " " + cancion1.getArtist().toString());
+        System.out.println(numero2 + " " + cancion2.getTitulo() + " " + cancion2.getArtist().toString());
+        System.out.println(numero3 + " " + cancion3.getTitulo() + " " + cancion3.getArtist().toString());
+        System.out.println(numero4 + " " + cancion4.getTitulo() + " " + cancion4.getArtist().toString());
+        System.out.println(numero5 + " " + cancion5.getTitulo() + " " + cancion5.getArtist().toString());
+    }
+    public String[] funcionaux1(LinkedListImpl <String> artist) throws PosicionInvalida {
+        String[] aux = new String[artist.size()];
+        for (int i = 0; i < artist.size(); i++) {
+            aux[i] = artist.get(i);
+        }
+        return aux;
     }
 
-    public void funcion3(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
+        public void funcion3(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais1 = hashMap.get(fecha1);
         if (hashPais1 == null) {
             System.out.println("No hay datos para esa fecha");
@@ -145,6 +153,9 @@ public class Functions {
             }
         }
         System.out.println(posicion1 + " " + posicion2);
+    }
+    public void funcion4(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
+
     }
 
 }
