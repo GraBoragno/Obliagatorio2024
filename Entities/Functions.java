@@ -46,14 +46,12 @@ public class Functions {
             return;
         }
         System.out.println("En ejecucion...");
-        // cuenta las apariciones de canciones
-        LinkedListImpl<DoubleNode<Integer, Cancion>> cancionesCount = new LinkedListImpl<>();
-        // las guarda por el url
-        MyHashTableImpl<String, Cancion> cancionMap = new MyHashTableImpl<>(11);
 
-        // Recorre hashPais y cuenta todas las apariciones de las canciones
+        MyHashTableImpl<String, Integer> cancionesCount = new MyHashTableImpl<>(100);
+        MyHashTableImpl<String, Cancion> cancionMap = new MyHashTableImpl<>(100);
+
         for (int i = 0; i < hashPais.size(); i++) {
-            if (hashPais.getStashes() != null && hashPais.getStashes()[i] != null) {
+            if (hashPais.getStashes()[i] != null) {
                 LinkedListImpl<Cancion>[] top50 = hashPais.getStashes()[i].getValue();
                 if (top50 != null) {
                     for (int j = 0; j < top50.length; j++) {
@@ -61,18 +59,16 @@ public class Functions {
                             MyNode<Cancion> currentNode = top50[j].getFirst();
                             while (currentNode != null) {
                                 Cancion cancion = currentNode.getValue();
-                                String cancionNombre = cancion.getTitulo();
+                                String cancionTitulo = cancion.getTitulo();
 
-                                boolean Contiene = false;
-                                for (int k = 0; k < cancionesCount.size(); k++) {
-                                    if(cancionesCount.get(k).getValue().getTitulo().equals(cancion.getTitulo())){
-                                        cancionesCount.get(k).setKey(cancionesCount.get(k).getKey() + 1);
-                                        Contiene = true;
-                                    }
+                                Integer count = cancionesCount.get(cancionTitulo);
+                                if (count == null) {
+                                    cancionesCount.put(cancionTitulo, 1);
+                                    cancionMap.put(cancionTitulo, cancion);
+                                } else {
+                                    cancionesCount.put(cancionTitulo, count + 1);
                                 }
-                                if(!Contiene) {
-                                    cancionesCount.add(new DoubleNode<>(1, cancion));
-                                }
+
                                 currentNode = currentNode.getNext();
                             }
                         }
@@ -80,55 +76,39 @@ public class Functions {
                 }
             }
         }
-        Integer numero1 = 0;
-        Integer numero2 = 0;
-        Integer numero3 = 0;
-        Integer numero4 = 0;
-        Integer numero5 = 0;
-        Cancion cancion1 = null;
-        Cancion cancion2 = null;
-        Cancion cancion3 = null;
-        Cancion cancion4 = null;
-        Cancion cancion5 = null;
 
+        Integer[] topCounts = new Integer[5];
+        Cancion[] topCanciones = new Cancion[5];
         for (int i = 0; i < cancionesCount.size(); i++) {
-            if (cancionesCount.get(i).getKey() > numero1){
-                numero1 = cancionesCount.get(i).getKey();
-                cancion1 = cancionesCount.get(i).getValue();
-            }
-            if (cancionesCount.get(i).getKey() > numero2 && cancionesCount.get(i).getKey() < numero1){
-                numero2 = cancionesCount.get(i).getKey();
-                cancion2 = cancionesCount.get(i).getValue();
-            }
-            if (cancionesCount.get(i).getKey() > numero3 && cancionesCount.get(i).getKey() < numero2){
-                numero3 = cancionesCount.get(i).getKey();
-                cancion3 = cancionesCount.get(i).getValue();
-            }
-            if (cancionesCount.get(i).getKey() > numero4 && cancionesCount.get(i).getKey() < numero3){
-                numero4 = cancionesCount.get(i).getKey();
-                cancion4 = cancionesCount.get(i).getValue();
-            }
-            if (cancionesCount.get(i).getKey() > numero5 && cancionesCount.get(i).getKey() < numero4){
-                numero5 = cancionesCount.get(i).getKey();
-                cancion5 = cancionesCount.get(i).getValue();
+            if (cancionesCount.getStashes()[i] != null) {
+                String titulo = cancionesCount.getStashes()[i].getKey();
+                int count = cancionesCount.getStashes()[i].getValue();
+                Cancion cancion = cancionMap.get(titulo);
+
+                for (int j = 0; j < 5; j++) {
+                    if (topCounts[j] == null || count > topCounts[j]) {
+                        for (int k = 4; k > j; k--) {
+                            topCounts[k] = topCounts[k - 1];
+                            topCanciones[k] = topCanciones[k - 1];
+                        }
+                        topCounts[j] = count;
+                        topCanciones[j] = cancion;
+                        break;
+                    }
+                }
             }
         }
 
-        System.out.println(numero1 + " " + cancion1.getTitulo() + " " + cancion1.getArtist().toString());
-        System.out.println(numero2 + " " + cancion2.getTitulo() + " " + cancion2.getArtist().toString());
-        System.out.println(numero3 + " " + cancion3.getTitulo() + " " + cancion3.getArtist().toString());
-        System.out.println(numero4 + " " + cancion4.getTitulo() + " " + cancion4.getArtist().toString());
-        System.out.println(numero5 + " " + cancion5.getTitulo() + " " + cancion5.getArtist().toString());
-    }
-    public String[] funcionaux1(LinkedListImpl <String> artist) throws PosicionInvalida {
-        String[] aux = new String[artist.size()];
-        for (int i = 0; i < artist.size(); i++) {
-            aux[i] = artist.get(i);
+        for (int i = 0; i < 5; i++) {
+            if (topCanciones[i] != null) {
+                System.out.println(topCounts[i] + " " + topCanciones[i].getTitulo() + " " + topCanciones[i].getArtist().toString());
+            }
         }
-        return aux;
     }
 
-        public void funcion3(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
+
+
+    public void funcion3(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais1 = hashMap.get(fecha1);
         if (hashPais1 == null) {
             System.out.println("No hay datos para esa fecha");
