@@ -44,7 +44,7 @@ public class Main {
             try {
                 opcion = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("Entrada no válida. Por favor, ingrese un número del 1 al 6.");
+                System.out.println("Valor invalido. Ingrese un número del 1 al 6.");
                 continue; // Volver al inicio del bucle
             }
 
@@ -124,8 +124,52 @@ public class Main {
                     break;
 
                 case 5:
-                    //poner aca la funcion a la que quiero que vaya;
+                    LocalDate fechaInicio = null;
+                    LocalDate fechaFin = null;
+                    float tempoMin = 0;
+                    float tempoMax = 0;
+
+                    while (fechaInicio == null) {
+                        System.out.println("Ingrese la fecha de inicio (yyyy-mm-dd): ");
+                        String fechaInicioS = scanner.nextLine().trim();
+                        try {
+                            fechaInicio = LocalDate.parse(fechaInicioS);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
+                        }
+                    }
+
+                    while (fechaFin == null) {
+                        System.out.println("Ingrese la fecha de fin (yyyy-mm-dd): ");
+                        String fechaFinS = scanner.nextLine().trim();
+                        try {
+                            fechaFin = LocalDate.parse(fechaFinS);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Formato de fecha incorrecto. Por favor, intente de nuevo.");
+                        }
+                    }
+
+                    while (tempoMin <= 0) {
+                        System.out.println("Ingrese el tempo mínimo: ");
+                        try {
+                            tempoMin = Float.parseFloat(scanner.nextLine().trim());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Valor invalido. Por favor, ingrese un número.");
+                        }
+                    }
+
+                    while (tempoMax <= 0) {
+                        System.out.println("Ingrese el tempo máximo: ");
+                        try {
+                            tempoMax = Float.parseFloat(scanner.nextLine().trim());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Valor invalido. Por favor, ingrese un número.");
+                        }
+                    }
+
+                    functions.funcion5(fechaInicio, fechaFin, tempoMin, tempoMax);
                     break;
+
 
                 case 6:
                     System.out.println("programa finalizado.");

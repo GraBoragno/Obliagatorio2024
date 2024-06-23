@@ -169,10 +169,8 @@ public class Functions {
             return;
         }
 
-        // Convertir el nombre del artista a minúsculas para la comparación sin distinción de mayúsculas y minúsculas
         String artistaMinusculas = artista.toLowerCase();
 
-        // Recorrer las listas de canciones del top 50
         for (int i = 0; i < cancionesDelTop.length; i++) {
             if (cancionesDelTop[i] != null) {
                 for (int j = 0; j < cancionesDelTop[i].size(); j++) {
@@ -180,7 +178,6 @@ public class Functions {
                     if (artistas != null) {
                         MyNode<String> artistaNode = artistas.getFirst();
                         while (artistaNode != null) {
-                            // Comparar el nombre del artista ignorando mayúsculas y minúsculas
                             if (artistaNode.getValue().toLowerCase().equals(artistaMinusculas)) {
                                 apariciones++;
                             }
@@ -192,6 +189,40 @@ public class Functions {
         }
 
         System.out.println("El artista " + artista + " aparece " + apariciones + " veces en el top 50 de " + pais + " en la fecha " + fecha);
+    }
+
+    public void funcion5(LocalDate fechaInicio, LocalDate fechaFin, float tempoMin, float tempoMax) throws InformacionInvalida, PosicionInvalida {
+        int contadorCanciones = 0;
+
+
+        for (LocalDate fecha = fechaInicio; !fecha.isAfter(fechaFin); fecha = fecha.plusDays(1)) {
+            MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
+            if (hashPais == null) {
+                continue;
+            }
+
+            for (int i = 0; i < hashPais.size(); i++) {
+                if (hashPais.getStashes() != null && hashPais.getStashes()[i] != null) {
+                    LinkedListImpl<Cancion>[] listaCanciones = hashPais.getStashes()[i].getValue();
+                    if (listaCanciones != null) {
+                        for (LinkedListImpl<Cancion> lista : listaCanciones) {
+                            if (lista != null) {
+                                MyNode<Cancion> currentNode = lista.getFirst();
+                                while (currentNode != null) {
+                                    Cancion cancion = currentNode.getValue();
+                                    if (cancion.getTempo() >= tempoMin && cancion.getTempo() <= tempoMax) {
+                                        contadorCanciones++;
+                                    }
+                                    currentNode = currentNode.getNext();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("Cantidad de canciones con tempo entre " + tempoMin + " y " + tempoMax + " en el rango de fechas " + fechaInicio + " a " + fechaFin + ": " + contadorCanciones);
     }
 
 
