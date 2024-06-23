@@ -97,6 +97,7 @@ public class Main {
 
                 case 6:
                     System.out.println("programa finalizado.");
+                    System.exit(0);
                     break;
 
                 default:

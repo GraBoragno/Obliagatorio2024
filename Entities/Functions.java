@@ -10,6 +10,7 @@ import TADS.LinkedList.MyNode;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Functions {
     private MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap;
@@ -35,7 +36,7 @@ public class Functions {
         //continuar la funcion
     }
 
-    public void funcion2(LocalDate fecha) throws InformacionInvalida {
+    public void funcion2(LocalDate fecha) throws InformacionInvalida, PosicionInvalida {
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
         if (hashPais == null) {
             System.out.println("No hay datos para esa fecha");
@@ -43,7 +44,7 @@ public class Functions {
         }
 
         // cuenta las apariciones de canciones
-        MyHashTableImpl<String, Integer> cancionesCount = new MyHashTableImpl<>(11);
+        LinkedListImpl<DoubleNode<Integer, Cancion>> cancionesCount = new LinkedListImpl<>();
         // las guarda por el url
         MyHashTableImpl<String, Cancion> cancionMap = new MyHashTableImpl<>(11);
 
@@ -57,15 +58,18 @@ public class Functions {
                             MyNode<Cancion> currentNode = top50[j].getFirst();
                             while (currentNode != null) {
                                 Cancion cancion = currentNode.getValue();
-                                String cancionID = cancion.getUrl();
+                                String cancionNombre = cancion.getTitulo();
 
-                                Integer count = cancionesCount.get(cancionID);
-                                if (count == null) {
-                                    count = 0;
+                                boolean Contiene = false;
+                                for (int k = 0; k < cancionesCount.size(); k++) {
+                                    if(cancionesCount.get(k).getValue().getTitulo().equals(cancion.getTitulo())){
+                                        cancionesCount.get(k).setKey(cancionesCount.get(k).getKey() + 1);
+                                        Contiene = true;
+                                    }
                                 }
-                                cancionesCount.put(cancionID, count + 1);
-                                cancionMap.put(cancionID, cancion);
-
+                                if(!Contiene) {
+                                    cancionesCount.add(new DoubleNode<>(1, cancion));
+                                }
                                 currentNode = currentNode.getNext();
                             }
                         }
@@ -73,58 +77,43 @@ public class Functions {
                 }
             }
         }
-
-        // va a ordenar las canciones por cantidad de veces que aparecen
-        LinkedListImpl<DoubleNode<Integer, Cancion>> topFive = new LinkedListImpl<>();
-
-        // agrega las canciones a la lista
+        Integer numero1 = 0;
+        Integer numero2 = 0;
+        Integer numero3 = 0;
+        Integer numero4 = 0;
+        Integer numero5 = 0;
+        Cancion cancion1 = null;
+        Cancion cancion2 = null;
+        Cancion cancion3 = null;
+        Cancion cancion4 = null;
+        Cancion cancion5 = null;
         for (int i = 0; i < cancionesCount.size(); i++) {
-            if (cancionesCount.getStashes() != null && cancionesCount.getStashes()[i] != null) {
-                String cancionID = cancionesCount.getStashes()[i].getKey();
-                Integer count = cancionesCount.get(cancionID);
-                Cancion cancion = cancionMap.get(cancionID);
-
-                if (count != null && cancion != null) {
-                    DoubleNode<Integer, Cancion> nuevoStash = new DoubleNode<>(count, cancion);
-                    topFive.add(nuevoStash);
-                }
+            if (cancionesCount.get(i).getKey() > numero1){
+                numero1 = cancionesCount.get(i).getKey();
+                cancion1 = cancionesCount.get(i).getValue();
+            }
+            if (cancionesCount.get(i).getKey() > numero2 && cancionesCount.get(i).getKey() < numero1){
+                numero2 = cancionesCount.get(i).getKey();
+                cancion2 = cancionesCount.get(i).getValue();
+            }
+            if (cancionesCount.get(i).getKey() > numero3 && cancionesCount.get(i).getKey() < numero2){
+                numero3 = cancionesCount.get(i).getKey();
+                cancion3 = cancionesCount.get(i).getValue();
+            }
+            if (cancionesCount.get(i).getKey() > numero4 && cancionesCount.get(i).getKey() < numero3){
+                numero4 = cancionesCount.get(i).getKey();
+                cancion4 = cancionesCount.get(i).getValue();
+            }
+            if (cancionesCount.get(i).getKey() > numero5 && cancionesCount.get(i).getKey() < numero4){
+                numero5 = cancionesCount.get(i).getKey();
+                cancion5 = cancionesCount.get(i).getValue();
             }
         }
 
-        // orden la lista por número de apariciones
-        topFive.sort(new Comparator<DoubleNode<Integer, Cancion>>() {
-            @Override
-            public int compare(DoubleNode<Integer, Cancion> o1, DoubleNode<Integer, Cancion> o2) {
-                return o2.getKey().compareTo(o1.getKey());
-            }
-        });
-
-        // esta es para no printear las cosas dos veces
-        LinkedListImpl<String> printedSongs = new LinkedListImpl<>();
-
-        // printea las 5 que mas aparecen
-        int pos = 1;
-        int count = 0;
-        MyNode<DoubleNode<Integer, Cancion>> currentNode = topFive.getFirst();
-        while (currentNode != null && count < 5) {
-            DoubleNode<Integer, Cancion> entry = currentNode.getValue();
-            Cancion cancion = entry.getValue();
-
-            // ve si ya se printeo
-            boolean alreadyPrinted = printedSongs.contains(cancion.getUrl());
-            if (!alreadyPrinted) {
-                printedSongs.add(cancion.getUrl());
-                String rankingInfo = " con " + entry.getKey() + " apariciones --- ";
-
-                System.out.print(pos + "º" + rankingInfo);
-                System.out.print("titulo: " + cancion.getTitulo() + " artista: " + cancion.getArtist());
-                System.out.println();
-
-                pos++;
-                count++;
-            }
-
-            currentNode = currentNode.getNext();
-        }
+        System.out.println(numero1 + " " + cancion1);
+        System.out.println(numero2 + " " + cancion2);
+        System.out.println(numero3 + " " + cancion3);
+        System.out.println(numero4 + " " + cancion4);
+        System.out.println(numero5 + " " + cancion5);
     }
 }

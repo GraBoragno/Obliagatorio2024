@@ -86,35 +86,40 @@ public class MyHashTableImpl<K, T> implements MyHashTable<K, T> {
         if (key == null) {
             throw new InformacionInvalida();
         }
+
         int index = getBucketIndex(key);
+        int start = index;
         DoubleNode<K, T> temp = buckets[index];
-        if (temp == null) {
-            throw new InformacionInvalida();
-        }
-        while (temp != null && !temp.getKey().equals(key)) {
-            index = (index + 1) % buckets.length;
+
+        while (temp != null) {
+            if (temp.getKey().equals(key)) {
+                buckets[index] = null;
+                ocupados--;
+                organizeAfterRemoval(index);
+                return;
+            }
+            index = (index + 1) % numBuckets;
             temp = buckets[index];
+
+            if (index == start) {
+                break;  // We have looped all the way around the array
+            }
         }
-        if (temp != null) {
-            buckets[index] = null;
-            ocupados--;
-            organizeAfterRemoval(index);
-            resize();
-        } else {
-            throw new InformacionInvalida();
-        }
+
+        throw new InformacionInvalida();  // Key not found
     }
 
     private void organizeAfterRemoval(int index) {
-        int nextIndex = (index + 1) % buckets.length;
+        int nextIndex = (index + 1) % numBuckets;
         while (buckets[nextIndex] != null) {
-            int newIndex = getBucketIndex(buckets[nextIndex].getKey());
-            if ((newIndex <= index && nextIndex > index) || (newIndex > index && nextIndex > index && newIndex <= nextIndex)) {
+            int correctIndex = getBucketIndex(buckets[nextIndex].getKey());
+            if ((correctIndex > index && (correctIndex <= nextIndex || nextIndex < index)) ||
+                    (correctIndex < index && correctIndex <= nextIndex && nextIndex < index)) {
                 buckets[index] = buckets[nextIndex];
                 buckets[nextIndex] = null;
                 index = nextIndex;
             }
-            nextIndex = (nextIndex + 1) % buckets.length;
+            nextIndex = (nextIndex + 1) % numBuckets;
         }
     }
 
