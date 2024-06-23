@@ -45,7 +45,7 @@ public class Main {
                 opcion = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.out.println("Valor invalido. Ingrese un número del 1 al 6.");
-                continue; // Volver al inicio del bucle
+                continue;
             }
 
             switch (opcion) {

@@ -11,6 +11,9 @@ import java.time.LocalDate;
 
 public class CSV {
     public MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap(String direcCSV) throws InformacionInvalida {
+        System.gc();
+        long startTime = System.nanoTime();
+        float startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
         String filePath = direcCSV;
         MyHashTableImpl<LocalDate, MyHashTableImpl<String, LinkedListImpl<Cancion>[]>> hashMap = new MyHashTableImpl<>(50);
@@ -76,8 +79,7 @@ public class CSV {
                 nuevaC.valence = Float.parseFloat(values[21]);
                 nuevaC.tempo = Float.parseFloat(values[22]);
                 nuevaC.time_signature = Integer.parseInt(values[23]);
-//                System.out.println(nuevaC.toString());
-//                contador ++;
+
 
                 MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(date);
                 if (hashPais == null) {
@@ -95,7 +97,6 @@ public class CSV {
                 }
 
                 listaPais[nuevaC.daily_rank - 1].add(nuevaC);
-//                System.out.println(nuevaC.getCountry());
 
             }
         } catch (IOException  e) {
@@ -103,7 +104,15 @@ public class CSV {
         } catch (InformacionInvalida e) {
             throw new RuntimeException(e);
         }
-        System.out.println(hashMap.getStashes().length);
+        long endTime = System.nanoTime();
+        long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        double tiempoEjecucionSegundos = (endTime - startTime) / 1_000_000_000.0;
+
+        float memoriaUsada = endMemory - startMemory;
+        System.out.println("\n");
+        System.out.printf("Tiempo de ejecución: %.3f segundos%n", tiempoEjecucionSegundos);
+        System.out.println("Memoria usada: " + memoriaUsada/(1024*1024*1024) + " Gb");
         return hashMap;
     }
 

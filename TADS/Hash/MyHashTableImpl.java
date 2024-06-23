@@ -102,11 +102,11 @@ public class MyHashTableImpl<K, T> implements MyHashTable<K, T> {
             temp = buckets[index];
 
             if (index == start) {
-                break;  // We have looped all the way around the array
+                break;
             }
         }
 
-        throw new InformacionInvalida();  // Key not found
+        throw new InformacionInvalida();
     }
 
     private void organizeAfterRemoval(int index) {

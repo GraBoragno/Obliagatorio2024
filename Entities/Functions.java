@@ -37,7 +37,7 @@ public class Functions {
         for (int i = 0; i < 10; i++) {
             if(top50[i] != null){
                 for (int j = 0; j < top50[i].size(); j++) {
-                    System.out.println(top50[i].get(j));
+                    System.out.println(top50[i].get(j).getTitulo() + " " + top50[i].get(j).getArtist());
                 }
             }
         }
@@ -53,6 +53,9 @@ public class Functions {
     }
 
     public void funcion2(LocalDate fecha) throws InformacionInvalida, PosicionInvalida {
+        System.gc();
+        long startTime = System.nanoTime();
+        float startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
         if (hashPais == null) {
             System.out.println("No hay datos para esa fecha");
@@ -116,11 +119,23 @@ public class Functions {
                 System.out.println(topCounts[i] + " " + topCanciones[i].getTitulo() + " " + topCanciones[i].getArtist().toString());
             }
         }
+        long endTime = System.nanoTime();
+        long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        double tiempoEjecucionSegundos = (endTime - startTime) / 1_000_000_000.0;
+
+        float memoriaUsada = endMemory - startMemory;
+        System.out.println("\n");
+        System.out.printf("Tiempo de ejecución: %.3f segundos%n", tiempoEjecucionSegundos);
+        System.out.println("Memoria usada: " + memoriaUsada/(1024*1024*1024) + " Gb");
     }
 
 
 
     public void funcion3(LocalDate fecha1, LocalDate fecha2) throws InformacionInvalida {
+        System.gc();
+        long startTime = System.nanoTime();
+        float startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         MyHashTableImpl<String, Integer> artistCount = new MyHashTableImpl<>(100);
 
         LocalDate fecha = fecha1;
@@ -186,10 +201,22 @@ public class Functions {
                 System.out.println(topArtists[i] + ": " + topCounts[i]);
             }
         }
+        long endTime = System.nanoTime();
+        long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        double tiempoEjecucionSegundos = (endTime - startTime) / 1_000_000_000.0;
+
+        float memoriaUsada = endMemory - startMemory;
+        System.out.println("\n");
+        System.out.printf("Tiempo de ejecución: %.3f segundos%n", tiempoEjecucionSegundos);
+        System.out.println("Memoria usada: " + memoriaUsada/(1024*1024*1024) + " Gb");
     }
 
 
     public void funcion4(LocalDate fecha, String pais, String artista) throws InformacionInvalida, PosicionInvalida {
+        System.gc();
+        long startTime = System.nanoTime();
+        float startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         int apariciones = 0;
 
         MyHashTableImpl<String, LinkedListImpl<Cancion>[]> hashPais = hashMap.get(fecha);
@@ -224,9 +251,21 @@ public class Functions {
         }
 
         System.out.println("El artista " + artista + " aparece " + apariciones + " veces en el top 50 de " + pais + " en la fecha " + fecha);
+        long endTime = System.nanoTime();
+        long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        double tiempoEjecucionSegundos = (endTime - startTime) / 1_000_000_000.0;
+
+        float memoriaUsada = endMemory - startMemory;
+        System.out.println("\n");
+        System.out.printf("Tiempo de ejecución: %.3f segundos%n", tiempoEjecucionSegundos);
+        System.out.println("Memoria usada: " + memoriaUsada/(1024*1024*1024) + " Gb");
     }
 
     public void funcion5(LocalDate fechaInicio, LocalDate fechaFin, float tempoMin, float tempoMax) throws InformacionInvalida, PosicionInvalida {
+        System.gc();
+        long startTime = System.nanoTime();
+        float startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         int contadorCanciones = 0;
 
 
@@ -258,6 +297,15 @@ public class Functions {
         }
 
         System.out.println("Cantidad de canciones con tempo entre " + tempoMin + " y " + tempoMax + " en el rango de fechas " + fechaInicio + " a " + fechaFin + ": " + contadorCanciones);
+        long endTime = System.nanoTime();
+        long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        double tiempoEjecucionSegundos = (endTime - startTime) / 1_000_000_000.0;
+
+        float memoriaUsada = endMemory - startMemory;
+        System.out.println("\n");
+        System.out.printf("Tiempo de ejecución: %.3f segundos%n", tiempoEjecucionSegundos);
+        System.out.println("Memoria usada: " + memoriaUsada/(1024*1024*1024) + " Gb");
     }
 
 
